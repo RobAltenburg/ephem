@@ -1,0 +1,4 @@
+*.so
+*.import.scm
+*.inline
+*.types

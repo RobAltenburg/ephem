@@ -1,0 +1,24 @@
+(use setup-helper-mod)
+
+(verify-extension-name "ephem")
+
+(setup-shared-extension-module 'ephem-sidereal (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem-solar (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem-lunar (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem-rise-set (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem-julian-day (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+
+
