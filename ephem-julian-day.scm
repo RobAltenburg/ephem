@@ -11,14 +11,14 @@
         (get-date)
 
     (import chicken scheme foreign srfi-19)
-    (use srfi-19)
+    (use srfi-19 ephem-common)
 
 ;;; }}}
 
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/ln_types.h>")
     (foreign-declare "#include <libnova/julian_day.h>")
-
+    (define-external (callback (scheme-object obj)) scheme-object obj)
 ;;; }}} 
 
 ;;; Julian Day {{{1
@@ -40,7 +40,7 @@
                                         C_fix((int)out->seconds));
                                         /* This should be C_flonum(&a, out->seconds));
                                            but srfi-19 complains, when it isn't a fixnum*/
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
 
 ;; returns a srfi-19 date object 

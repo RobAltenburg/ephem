@@ -20,6 +20,7 @@
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/ln_types.h>")
     (foreign-declare "#include <libnova/rise_set.h>")
+    (define-external (callback (scheme-object obj)) scheme-object obj)
 
 ;;; }}} 
 
@@ -42,7 +43,7 @@
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit),
                                         C_fix(flag));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
 
 

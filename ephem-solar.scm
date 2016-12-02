@@ -18,6 +18,7 @@
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/solar.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
+    (define-external (callback (scheme-object obj)) scheme-object obj)
 ;;; }}} 
 
 ;;; Solar {{{1
@@ -34,7 +35,7 @@
                                         C_flonum(&a, out->rise),
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
     ;; returns #(rise set transit) in jd
     (define solar-rst
@@ -49,7 +50,7 @@
                                         C_flonum(&a, out->rise),
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
     ;; returns #(L B R) 
     (define solar-geom-coords
@@ -63,7 +64,7 @@
                                         C_flonum(&a, r->L),
                                         C_flonum(&a, r->B),
                                         C_flonum(&a, r->R));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
                        
     ;; returns #(ra dec) 
@@ -77,7 +78,7 @@
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
     ;; returns #(lat lng) degrees
     (define solar-ecl-coords 
@@ -90,7 +91,7 @@
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->lat),
                                         C_flonum(&a, r->lng));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
     ;; returns #(X Y Z) 
     (define solar-geo-coords
@@ -104,7 +105,7 @@
                                         C_flonum(&a, r->X),
                                         C_flonum(&a, r->Y),
                                         C_flonum(&a, r->Z));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
     (define solar-sdiam 
       (foreign-lambda double "ln_get_solar_sdiam" double))

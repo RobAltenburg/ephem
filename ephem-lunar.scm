@@ -19,6 +19,8 @@
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/lunar.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
+    (define-external (callback (scheme-object obj)) scheme-object obj)
+
 ;;; }}} 
 
 ;;; Lunar {{{1
@@ -38,7 +40,7 @@
                                         C_flonum(&a, out->rise),
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
     ;; returns #(x y z) 
     (define lunar-geo-posn
@@ -65,7 +67,7 @@
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
     ;; returns #(ra dec) 
     (define lunar-equ-coords 
@@ -78,7 +80,7 @@
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
     ;; returns #(lat lng) degrees
     (define lunar-ecl-coords 
@@ -91,7 +93,7 @@
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->lat),
                                         C_flonum(&a, r->lng));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
    (define lunar-phase 
       (foreign-lambda double "ln_get_lunar_phase" double))
