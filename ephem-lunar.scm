@@ -54,7 +54,7 @@
                                         C_flonum(&a, r->X),
                                         C_flonum(&a, r->Y),
                                         C_flonum(&a, r->Z));
-                       C_return(lst);"))
+                       C_return(callback(lst));"))
 
     ;; returns #(ra dec) 
     (define lunar-equ-coords-prec
