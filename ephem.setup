@@ -17,6 +17,9 @@
 (setup-shared-extension-module 'ephem-julian-day (extension-version "0.0.1")
   #:compile-options '(-optimize-level 3 -lnova))
 
+(setup-shared-extension-module 'ephem-mercury (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
 (setup-shared-extension-module 'ephem (extension-version "0.0.1")
   #:compile-options '(-optimize-level 3 -lnova))
 
