@@ -20,6 +20,27 @@
 (setup-shared-extension-module 'ephem-mercury (extension-version "0.0.1")
   #:compile-options '(-optimize-level 3 -lnova))
 
+(setup-shared-extension-module 'ephem-venus (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem-mars (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem-jupiter (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem-saturn (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem-uranus (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem-neptune (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
+(setup-shared-extension-module 'ephem-pluto (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
 (setup-shared-extension-module 'ephem (extension-version "0.0.1")
   #:compile-options '(-optimize-level 3 -lnova))
 
