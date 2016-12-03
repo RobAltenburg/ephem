@@ -40,6 +40,7 @@
                                         C_fix((int)out->seconds));
                                         /* This should be C_flonum(&a, out->seconds));
                                            but srfi-19 complains, when it isn't a fixnum*/
+                       free(out);
                        C_return(callback(lst));"))
 
 

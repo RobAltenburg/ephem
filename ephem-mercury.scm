@@ -40,6 +40,7 @@
                                         C_flonum(&a, out->rise),
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit));
+                       free(out);
                        C_return(callback(lst));"))
 
     ;; returns #(L B R) 
@@ -54,6 +55,7 @@
                                         C_flonum(&a, r->L),
                                         C_flonum(&a, r->B),
                                         C_flonum(&a, r->R));
+                       free(r);
                        C_return(callback(lst));"))
 
     ;; returns #(ra dec) 
@@ -67,6 +69,7 @@
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
+                       free(r);
                        C_return(callback(lst));"))
 
     ;; returns #(ra dec) 
@@ -80,6 +83,7 @@
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
+                       free(r);
                        C_return(callback(lst));"))
 
     (define mercury-earth-dist 
@@ -105,6 +109,7 @@
                                         C_flonum(&a, r->X),
                                         C_flonum(&a, r->Y),
                                         C_flonum(&a, r->Z));
+                       free(r);
                        C_return(callback(lst));"))
 
  ;;; }}}

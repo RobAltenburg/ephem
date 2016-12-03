@@ -35,6 +35,7 @@
                                         C_flonum(&a, out->rise),
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit));
+                       free(out);
                        C_return(callback(lst));"))
 
     ;; returns #(rise set transit) in jd
@@ -50,6 +51,7 @@
                                         C_flonum(&a, out->rise),
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit));
+                       free(out);
                        C_return(callback(lst));"))
 
     ;; returns #(L B R) 
@@ -64,6 +66,7 @@
                                         C_flonum(&a, r->L),
                                         C_flonum(&a, r->B),
                                         C_flonum(&a, r->R));
+                       free(r);
                        C_return(callback(lst));"))
 
                        
@@ -78,6 +81,7 @@
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
+                       free(r);
                        C_return(callback(lst));"))
 
     ;; returns #(lat lng) degrees
@@ -91,6 +95,7 @@
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->lat),
                                         C_flonum(&a, r->lng));
+                       free(r);
                        C_return(callback(lst));"))
 
     ;; returns #(X Y Z) 
@@ -105,6 +110,7 @@
                                         C_flonum(&a, r->X),
                                         C_flonum(&a, r->Y),
                                         C_flonum(&a, r->Z));
+                       free(r);
                        C_return(callback(lst));"))
 
     (define solar-sdiam 

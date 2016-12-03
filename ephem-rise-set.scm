@@ -43,6 +43,7 @@
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit),
                                         C_fix(flag));
+                       free(out);
                        C_return(callback(lst));"))
 
     ;; returns #(rise set transit) in jd
@@ -62,6 +63,7 @@
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit),
                                         C_fix(flag));
+                       free(out);
                        C_return(callback(lst));"))
 
 
@@ -83,6 +85,7 @@
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit),
                                         C_fix(flag));
+                       free(out); 
                        C_return(callback(lst));"))
 
 ;}}}
