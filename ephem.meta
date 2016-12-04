@@ -1,7 +1,7 @@
 ;;;; ephem.meta 
 ((license "BSD")
  (category misc)
- (needs numbers)
+ (needs numbers srfi-19)
  (files "ephem.scm" "ephem.meta" "ephem.setup")
  (author "Rob Altenburg")
  (synopsis "Routines for Astronomy"))

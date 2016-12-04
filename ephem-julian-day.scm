@@ -11,7 +11,7 @@
         (get-date)
 
     (import chicken scheme foreign srfi-19)
-    (use srfi-19 ephem-common)
+    (use srfi-19)
 
 ;;; }}}
 
