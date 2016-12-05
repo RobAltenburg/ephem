@@ -14,13 +14,38 @@
           lunar-geo-posn lunar-equ-coords-prec lunar-ecl-coords
           solar-rst-horizon solar-rst solar-geom-coords solar-equ-coords 
           solar-ecl-coords solar-geo-coords solar-sdiam
-          object-rst get-date)
-
+          object-rst get-date
+          mercury-sdiam mercury-rst mercury-helio-coords mercury-equ-coords
+          mercury-earth-dist mercury-solar-dist mercury-magnitude 
+          mercury-disk mercury-phase mercury-rect-helio
+          venus-sdiam venus-rst venus-helio-coords venus-equ-coords
+          venus-earth-dist venus-solar-dist venus-magnitude 
+          venus-disk venus-phase venus-rect-helio
+          jupiter-equ-sdiam jupiter-pol-sdiam jupiter-rst jupiter-helio-coords jupiter-equ-coords
+          jupiter-earth-dist jupiter-solar-dist jupiter-magnitude 
+          jupiter-disk jupiter-phase jupiter-rect-helio
+          saturn-equ-sdiam saturn-pol-sdiam saturn-rst saturn-helio-coords saturn-equ-coords
+          saturn-earth-dist saturn-solar-dist saturn-magnitude 
+          saturn-disk saturn-phase saturn-rect-helio
+          neptune-sdiam neptune-rst neptune-helio-coords neptune-equ-coords
+          neptune-earth-dist neptune-solar-dist neptune-magnitude 
+          neptune-disk neptune-phase neptune-rect-helio
+          uranus-sdiam uranus-rst uranus-helio-coords uranus-equ-coords
+          uranus-earth-dist uranus-solar-dist uranus-magnitude 
+          uranus-disk uranus-phase uranus-rect-helio
+          pluto-sdiam pluto-rst pluto-helio-coords pluto-equ-coords
+          pluto-earth-dist pluto-solar-dist pluto-magnitude 
+          pluto-disk pluto-phase pluto-rect-helio)
+          
     (import chicken scheme foreign 
             ephem-sidereal ephem-lunar ephem-solar ephem-rise-set
-            ephem-julian-day)
+            ephem-julian-day 
+            ephem-mercury ephem-venus ephem-jupiter ephem-saturn
+            ephem-neptune ephem-uranus ephem-pluto)
 
-    (use ephem-sidereal ephem-lunar ephem-solar ephem-rise-set ephem-julian-day)
+    (use ephem-sidereal ephem-lunar ephem-solar ephem-rise-set ephem-julian-day
+            ephem-mercury ephem-venus ephem-jupiter ephem-saturn
+            ephem-neptune ephem-uranus ephem-pluto)
 
 ;;; }}}
 
@@ -28,6 +53,7 @@
     (foreign-declare "#include <libnova/sidereal_time.h>")
     (foreign-declare "#include <libnova/lunar.h>")
     (foreign-declare "#include <libnova/solar.h>")
+    (foreign-declare "#include <libnova/mercury.h>")
     (foreign-declare "#include <libnova/rise_set.h>")
     (foreign-declare "#include <libnova/julian_day.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
