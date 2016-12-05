@@ -35,16 +35,17 @@
           uranus-disk uranus-phase uranus-rect-helio
           pluto-sdiam pluto-rst pluto-helio-coords pluto-equ-coords
           pluto-earth-dist pluto-solar-dist pluto-magnitude 
-          pluto-disk pluto-phase pluto-rect-helio)
+          pluto-disk pluto-phase pluto-rect-helio
+          angular-separation rel-posn-angle)
           
     (import chicken scheme foreign 
             ephem-sidereal ephem-lunar ephem-solar ephem-rise-set
-            ephem-julian-day 
+            ephem-julian-day ephem-angular
             ephem-mercury ephem-venus ephem-jupiter ephem-saturn
             ephem-neptune ephem-uranus ephem-pluto)
 
     (use ephem-sidereal ephem-lunar ephem-solar ephem-rise-set ephem-julian-day
-            ephem-mercury ephem-venus ephem-jupiter ephem-saturn
+            ephem-angular ephem-mercury ephem-venus ephem-jupiter ephem-saturn
             ephem-neptune ephem-uranus ephem-pluto)
 
 ;;; }}}
@@ -56,9 +57,9 @@
     (foreign-declare "#include <libnova/mercury.h>")
     (foreign-declare "#include <libnova/rise_set.h>")
     (foreign-declare "#include <libnova/julian_day.h>")
+    (foreign-declare "#include <libnova/angular_separation.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
 ;;; }}} 
 
 )              
-
 
