@@ -36,17 +36,19 @@
           pluto-sdiam pluto-rst pluto-helio-coords pluto-equ-coords
           pluto-earth-dist pluto-solar-dist pluto-magnitude 
           pluto-disk pluto-phase pluto-rect-helio
-          angular-separation rel-posn-angle)
+          angular-separation rel-posn-angle refraction-adj)
           
     (import chicken scheme foreign 
             ephem-sidereal ephem-lunar ephem-solar ephem-rise-set
             ephem-julian-day ephem-angular
             ephem-mercury ephem-venus ephem-jupiter ephem-saturn
-            ephem-neptune ephem-uranus ephem-pluto)
+            ephem-neptune ephem-uranus ephem-pluto
+            ephem-refraction)
 
     (use ephem-sidereal ephem-lunar ephem-solar ephem-rise-set ephem-julian-day
             ephem-angular ephem-mercury ephem-venus ephem-jupiter ephem-saturn
-            ephem-neptune ephem-uranus ephem-pluto)
+            ephem-neptune ephem-uranus ephem-pluto
+            ephem-refraction)
 
 ;;; }}}
 
