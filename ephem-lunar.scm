@@ -65,6 +65,8 @@
                        struct ln_equ_posn *r;
                        r = malloc(sizeof(struct ln_rect_posn));
                        ln_get_lunar_equ_coords_prec(jd, r, precision);
+                       if (r->ra > 24) 
+                            r->ra = r->ra - 24 * floor(r->ra / 24);                    
                        a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->ra),
@@ -79,6 +81,8 @@
                        struct ln_equ_posn *r;
                        r = malloc(sizeof(struct ln_equ_posn));
                        ln_get_lunar_equ_coords(jd, r);
+                       if (r->ra > 24) 
+                            r->ra = r->ra - 24 * floor(r->ra / 24);                    
                        a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
                        lst = C_vector(&a, 2, 
                                         C_flonum(&a, r->ra),
