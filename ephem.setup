@@ -2,6 +2,9 @@
 
 (verify-extension-name "ephem")
 
+(setup-shared-extension-module 'ephem-common (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
 (setup-shared-extension-module 'ephem-sidereal (extension-version "0.0.1")
   #:compile-options '(-optimize-level 3 -lnova))
 
