@@ -8,7 +8,7 @@
 
 ;;; Module Definition {{{1
 (module ephem 
-        (gmst gast
+        (gmst gast lmst last
           lunar-phase lunar-disk lunar-sdiam lunar-earth-dist lunar-bright-limb 
           lunar-long-asc-node lunar-long-perigee lunar-equ-coords lunar-rst
           lunar-geo-posn lunar-equ-coords-prec lunar-ecl-coords
