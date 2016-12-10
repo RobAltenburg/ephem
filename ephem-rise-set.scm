@@ -14,6 +14,7 @@
          ;;> body-next-rst-horizon-future)
 
     (import chicken scheme foreign)
+    (use ephem-common)
 
 ;;; }}}
 
@@ -26,9 +27,10 @@
 
 ;;; Rise Set {{{1
 
-    ;; returns #(rise set transit) in jd
-    (define object-rst
-        (foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
+    ;; returns rst record type in jd
+    (define (object-rst jd ecl-in equ-in)
+      (apply make-rst 
+        ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_lnlat_posn in_observer = {.lat = lat, .lng = lng};
@@ -38,17 +40,21 @@
                        out = malloc(sizeof(struct ln_rst_time));
                        flag = ln_get_object_rst(jd, &in_observer, &in_object, out);
                        a = C_alloc(C_SIZEOF_LIST(4) + C_SIZEOF_FLONUM * 3 + 1);
-                       lst = C_vector(&a, 4, 
+                       lst = C_list(&a, 4, 
                                         C_flonum(&a, out->rise),
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit),
                                         C_fix(flag));
                        free(out);
-                       C_return(callback(lst));"))
+                       C_return(callback(lst));")
+                       jd
+                       (ecl-lng ecl-in) (ecl-lat ecl-in)
+                       (equ-ra equ-in) (equ-dec equ-in))))
 
-    ;; returns #(rise set transit) in jd
-    (define object-next-rst
-        (foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
+    ;; returns rst record type in jd
+    (define (object-next-rst jd ecl-in equ-in)
+      (apply make-rst
+        ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_lnlat_posn in_observer = {.lat = lat, .lng = lng};
@@ -58,18 +64,22 @@
                        out = malloc(sizeof(struct ln_rst_time));
                        flag = ln_get_object_next_rst(jd, &in_observer, &in_object, out);
                        a = C_alloc(C_SIZEOF_LIST(4) + C_SIZEOF_FLONUM * 3 + 1);
-                       lst = C_vector(&a, 4, 
+                       lst = C_list(&a, 4, 
                                         C_flonum(&a, out->rise),
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit),
                                         C_fix(flag));
                        free(out);
-                       C_return(callback(lst));"))
+                       C_return(callback(lst));")
+                       jd
+                       (ecl-lng ecl-in) (ecl-lat ecl-in)
+                       (equ-ra equ-in) (equ-dec equ-in))))
 
 
-    ;; returns #(rise set transit) in jd
-    (define object-next-rst-horizon
-        (foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
+    ;; returns rst record type in jd
+    (define (object-next-rst-horizon jd ecl-in equ-in horizon)
+      (apply make-rst
+        ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec)
                                                          (double horizon))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -80,14 +90,17 @@
                        out = malloc(sizeof(struct ln_rst_time));
                        flag = ln_get_object_next_rst_horizon(jd, &in_observer, &in_object, horizon, out);
                        a = C_alloc(C_SIZEOF_LIST(4) + C_SIZEOF_FLONUM * 3 + 1);
-                       lst = C_vector(&a, 4, 
+                       lst = C_list(&a, 4, 
                                         C_flonum(&a, out->rise),
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit),
                                         C_fix(flag));
                        free(out); 
-                       C_return(callback(lst));"))
-
+                       C_return(callback(lst));")
+                       jd
+                       (ecl-lng ecl-in) (ecl-lat ecl-in)
+                       (equ-ra equ-in) (equ-dec equ-in)
+                       horizon)))
 ;}}}
 
 )

@@ -39,7 +39,13 @@
           angular-separation rel-posn-angle refraction-adj
           hrz-from-equ hrz-from-equ-sidereal-time equ-from-ecl ecl-from-equ rect-from-helio 
           ecl-from-rect equ-from-gal equ2000-from-gal gal-from-equ gal-from-equ2000
-          range-hours range-degrees)
+          range-hours range-degrees
+          make-rst rst-rise rst-set rst-transit rst-circumpolar
+          make-rect rect-X rect-Y rect-Z
+          make-helio helio-L helio-B helio-R
+          make-ecl ecl-lng ecl-lat
+          make-equ equ-ra equ-dec
+          make-hrz hrz-az hrz-alt)
           
     (import chicken scheme foreign 
             ephem-sidereal ephem-lunar ephem-solar ephem-rise-set
