@@ -46,7 +46,8 @@
           make-helio helio-l helio-b helio-r
           make-ecl ecl-lng ecl-lat
           make-equ equ-ra equ-dec
-          make-hrz hrz-az hrz-alt)
+          make-hrz hrz-az hrz-alt
+          is-above-horizon?)
           
     (import chicken scheme foreign 
             ephem-sidereal ephem-lunar ephem-solar ephem-rise-set
@@ -73,5 +74,21 @@
     (foreign-declare "#include <libnova/ln_types.h>")
 ;;; }}} 
 
+;;; Extras (non-libnova) {{{1
+
+    (define (is-above-horizon? equ-obj ecl-obs jd)
+      (let ((alt (hrz-alt (hrz-from-equ equ-obj ecl-obs jd))))
+        (if (positive? alt)
+          alt
+          #f)))
+
+
+
+;;; }}}
+
 )              
+
+
+
+
 
