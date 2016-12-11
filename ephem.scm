@@ -39,7 +39,7 @@
           angular-separation rel-posn-angle refraction-adj
           hrz-from-equ hrz-from-equ-sidereal-time equ-from-ecl ecl-from-equ rect-from-helio 
           ecl-from-rect equ-from-gal equ2000-from-gal gal-from-equ gal-from-equ2000
-          range-hours range-degrees
+          range-hours range-degrees range-degrees180
           make-rstc rstc-rise rstc-set rstc-transit rstc-circumpolar
           make-rst rst-rise rst-set rst-transit 
           make-rect rect-x rect-y rect-z

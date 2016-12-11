@@ -8,7 +8,7 @@
 
 ;;; Module Definition {{{1
 (module ephem-common
-        (range-hours range-degrees
+        (range-hours range-degrees range-degrees180
          make-rstc rstc-rise rstc-set rstc-transit rstc-circumpolar
          make-rst rst-rise rst-set rst-transit
          make-rect rect-x rect-y rect-z
@@ -37,6 +37,12 @@
       (cond 
         ((< degrees 0) (range-degrees (+ 360 degrees)))
         ((> degrees 360) (range-degrees (- degrees 360)))
+        (else degrees)))
+
+    (define (range-degrees180 degrees)
+      (cond 
+        ((< degrees -180) (range-degrees180 (+ 360 degrees)))
+        ((> degrees 180) (range-degrees180 (- degrees 360)))
         (else degrees)))
 
     (define-record-type rstc
