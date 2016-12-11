@@ -82,16 +82,18 @@
           alt
           #f)))
 
-    (define (dms->deg deg min sec)
-      (if (positive? deg)
+    (define dms->deg 
+      (lambda (deg min #!optional (sec 0) #!key (east #f))
+        (if (east)
           (range-degrees (+ deg (/ min 60) (/ sec 3600)))
-          (range-degrees (- deg (/ min 60) (/ sec 3600)))))
+          (range-degrees (- deg (/ min 60) (/ sec 3600))))))
     
-    (define (hms->hr hr min sec)
-      (if (positive? hr)
-        (range-hours (+ hr (/ min 60) (/ sec 3600)))
-        (range-hours (- hr (/ min 60) (/ sec 3600)))))
-
+    (define hms->hr
+      (lambda (hr min #!optional (sec 0))
+        (if (positive? hr)
+          (range-hours (+ hr (/ min 60) (/ sec 3600)))
+          (range-hours (- hr (/ min 60) (/ sec 3600))))))
+    
 ;;; }}}
 
 )              
