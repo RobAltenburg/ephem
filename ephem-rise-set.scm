@@ -29,7 +29,7 @@
 
     ;; returns rst record type in jd
     (define (object-rst jd ecl-in equ-in)
-      (apply make-rst 
+      (apply make-rstc 
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -53,7 +53,7 @@
 
     ;; returns rst record type in jd
     (define (object-next-rst jd ecl-in equ-in)
-      (apply make-rst
+      (apply make-rstc
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -78,7 +78,7 @@
 
     ;; returns rst record type in jd
     (define (object-next-rst-horizon jd ecl-in equ-in horizon)
-      (apply make-rst
+      (apply make-rstc
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec)
                                                          (double horizon))

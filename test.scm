@@ -18,6 +18,6 @@
 ;(define set (get-date (vector-ref rst 1)))
 ;(define transit (get-date (vector-ref rst 2)))
 
-(printf "rise: ~S~%set: ~S~%transit: ~S~%" (rst-rise rst) (rst-set rst) (rst-transit rst))
+(printf "rise: ~S~%set: ~S~%transit: ~S~%" (rstc-rise rst) (rstc-set rst) (rstc-transit rst))
 
 

@@ -9,9 +9,10 @@
 ;;; Module Definition {{{1
 (module ephem-common
         (range-hours range-degrees
-         make-rst rst-rise rst-set rst-transit rst-circumpolar
-         make-rect rect-X rect-Y rect-Z
-         make-helio helio-L helio-B helio-R
+         make-rstc rstc-rise rstc-set rstc-transit rstc-circumpolar
+         make-rst rst-rise rst-set rst-transit
+         make-rect rect-x rect-y rect-z
+         make-helio helio-l helio-b helio-r
          make-ecl ecl-lng ecl-lat
          make-equ equ-ra equ-dec
          make-hrz hrz-az hrz-alt
@@ -38,27 +39,34 @@
         ((> degrees 24) (range-degrees (- degrees 360)))
         (else degrees)))
 
+    (define-record-type rstc
+        (make-rstc rise set transit circumpolar)
+        rstc?
+        (rise rstc-rise (setter rstc-rise)) 
+        (set rstc-set (setter rstc-set)) 
+        (transit rstc-transit (setter rstc-transit)) 
+        (circumpolar rstc-circumpolar (setter rstc-circumpolar)))
+
     (define-record-type rst
-        (make-rst rise set transit circumpolar)
+        (make-rst rise set transit)
         rst?
         (rise rst-rise (setter rst-rise)) 
         (set rst-set (setter rst-set)) 
-        (transit rst-transit (setter rst-transit)) 
-        (transit rst-circumpolar (setter rst-circumpolar))) 
+        (transit rst-transit (setter rst-transit)))
 
     (define-record-type rect
-        (make-rect X Y Z)
+        (make-rect x y z)
         rect?
-        (X rect-X (setter rect-X)) 
-        (Y rect-Y (setter rect-Y)) 
-        (Z rect-Z (setter rect-Z))) 
+        (x rect-x (setter rect-x)) 
+        (y rect-y (setter rect-y)) 
+        (z rect-z (setter rect-z))) 
 
     (define-record-type helio
-        (make-helio L B R)
+        (make-helio l b r)
         helio?
-        (L helio-L (setter helio-L)) 
-        (B helio-B (setter helio-B)) 
-        (R helio-R (setter helio-R))) 
+        (l helio-l (setter helio-l)) 
+        (b helio-b (setter helio-b)) 
+        (r helio-r (setter helio-r))) 
 
     (define-record-type ecl 
         (make-ecl lng lat)
