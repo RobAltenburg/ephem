@@ -47,7 +47,7 @@
           make-ecl ecl-lng ecl-lat
           make-equ equ-ra equ-dec
           make-hrz hrz-az hrz-alt
-          is-above-horizon?)
+          is-above-horizon? dms->deg hms->hr)
           
     (import chicken scheme foreign 
             ephem-sidereal ephem-lunar ephem-solar ephem-rise-set
@@ -81,6 +81,13 @@
         (if (positive? alt)
           alt
           #f)))
+
+    (define (dms->deg deg min sec)
+      (range-degrees (+ deg (/ min 60) (/ sec 3600))))
+    
+    (define (hms->hr hr min sec)
+      (range-hours (+ hr (/ min 60) (/ sec 3600))))
+
 
 
 

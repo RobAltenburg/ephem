@@ -36,7 +36,7 @@
     (define (range-degrees degrees)
       (cond 
         ((< degrees 0) (range-degrees (+ 360 degrees)))
-        ((> degrees 24) (range-degrees (- degrees 360)))
+        ((> degrees 360) (range-degrees (- degrees 360)))
         (else degrees)))
 
     (define-record-type rstc
