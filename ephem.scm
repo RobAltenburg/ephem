@@ -83,13 +83,14 @@
           #f)))
 
     (define (dms->deg deg min sec)
-      (range-degrees (+ deg (/ min 60) (/ sec 3600))))
+      (if (positive? deg)
+          (range-degrees (+ deg (/ min 60) (/ sec 3600)))
+          (range-degrees (- deg (/ min 60) (/ sec 3600)))))
     
     (define (hms->hr hr min sec)
-      (range-hours (+ hr (/ min 60) (/ sec 3600))))
-
-
-
+      (if (positive? hr)
+        (range-hours (+ hr (/ min 60) (/ sec 3600)))
+        (range-hours (- hr (/ min 60) (/ sec 3600)))))
 
 ;;; }}}
 
