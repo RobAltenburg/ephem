@@ -84,9 +84,13 @@
 
     (define dms->deg 
       (lambda (deg min #!optional (sec 0) (west #t))
-        (if west 
-          (range-degrees (- deg (/ min 60) (/ sec 3600)))
-          (range-degrees (+ deg (/ min 60) (/ sec 3600))))))
+        (cond 
+          ((negative? deg)
+            (range-degrees180 (- deg (/ min 60) (/ sec 3600))))
+          (west
+            (range-degrees180 (* -1 (+ deg (/ min 60) (/ sec 3600)))))
+          (else
+            (range-degrees180 (+ deg (/ min 60) (/ sec 3600)))))))
     
     (define hms->hr
       (lambda (hr min #!optional (sec 0))

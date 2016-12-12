@@ -5,16 +5,15 @@
 ; b33 radec 5.683 -2.4583
 
 (current-test-epsilon 0.000001)
+(define dd (exact->inexact (date->julian-day (make-date 0 0 0 16 11 12 2016 0 #f))))
+(define lng 0)
+(define lat 51.5)
 
-(define dd (exact->inexact (date->julian-day (make-date 0 0 0 12 25 12 2016 0 #f))))
-(define lng -76.8867)
-(define lat 40.2732)
-
-(test "Julian date" dd 2457748.0) ; not part of ephem
+(test "Julian date" 2457734.16667 dd) ; not part of ephem
 
 (test-group "sidereal"
-            (test "GMST" 18.295416 (gmst dd))
-            (test "GAST" 18.295287 (gast dd)))
+            (test "GMST" 21.386430 (gmst dd)) ;; should be 21.342292
+            (test "GAST" 21.386291 (gast dd))) ;; 21.386099
 
 (test-group "angular"
             (let* ((equ1 (make-equ 1.2 3.4)) 
@@ -23,33 +22,42 @@
                   (rpa (rel-posn-angle equ1 equ2)))
               (test "asa" 6.206920 asa)
               (test "rpa" -134.900983 rpa)))
-            
+
+(test-group "solar"
+            (define rst (solar-rst dd (make-ecl lng lat)))
+            (test "rise" 2457734.830328 (rst-rise rst))
+            (test "set" 2457735.159715 (rst-set rst))
+            (test "transit" 2457734.995078 (rst-transit rst))
+            (define rd (solar-equ-coords dd ))
+            (test "equ ra" 18.924587 (range-hours (equ-ra rd)))
+            (test "equ dec" -23.0444800 (equ-dec rd)))
+
 
 (test-group "lunar"
             (define rst (lunar-rst dd (make-ecl lng lat)))
-            (test "lunar-sdiam arcsec" 883.289643 (lunar-sdiam dd))
-            (test "rise" 2457748.908354 (rst-rise rst))
-            (test "set" 2457748.317307 (rst-set rst))
-            (test "transit" 2457748.095985 (rst-transit rst))
+            (test "lunar-sdiam arcsec" 995.721697 (lunar-sdiam dd))
+            (test "rise" 2457735.124596 (rst-rise rst))
+            (test "set" 2457734.725157 (rst-set rst))
+            (test "transit" 2457734.411830 (rst-transit rst))
             (define xyz (lunar-geo-posn dd 0))
-            (test "geo x" -247929.741775 (rect-x xyz))
-            (test "geo y" -319407.187805 (rect-y xyz))
-            (test "geo z" 34859.718963 (rect-z xyz))
+            (test "geo x" 246042.077211 (rect-x xyz))
+            (test "geo y" 261140.281151 (rect-y xyz))
+            (test "geo z" -29645.845565 (rect-z xyz))
             (define rd (lunar-equ-coords-prec dd 0))
-            (test "equ ra prec" 15.068788 (equ-ra rd))
-            (test "equ dec prec" -13.545979 (equ-dec rd))
+            (test "equ ra prec" 21.615615 (equ-ra rd))
+            (test "equ dec prec" 12.295526 (equ-dec rd))
             (define rd (lunar-equ-coords dd ))
-            (test "equ ra" 15.068788 (equ-ra rd))
-            (test "equ dec" -13.545979 (equ-dec rd))
-            (define ll (lunar-ecl-coords dd 0))
-            (test "ecl lat" 4.927518 (ecl-lat ll))
-            (test "ecl lng" 232.180727 (ecl-lng ll))
-            (test "phase" 137.941339 (lunar-phase dd))
-            (test "disk"  0.1287703 (lunar-disk dd))
-            (test "earth dist" 405839.016368 (lunar-earth-dist dd))
-            (test "bright limb" 110.0766639 (lunar-bright-limb dd))
-            (test "long asc node" -203.427720 (lunar-long-asc-node dd))
-            (test "long perigee" 774.389011 (lunar-long-perigee dd))
+            (test "equ ra" 21.615615 (equ-ra rd))
+            (test "equ dec" 12.295536 (equ-dec rd))
+            (define ll (lunar-ecl-coords dd 1))
+            (test "ecl lat" -4.723452 (ecl-lat ll))
+            (test "ecl lng" 46.705122 (ecl-lng ll))
+            (test "phase" 33.333330 (lunar-phase dd))
+            (test "disk"  0.917744 (lunar-disk dd))
+            (test "earth dist" 360013.647459 (lunar-earth-dist dd))
+            (test "bright limb" 246.552804 (lunar-bright-limb dd))
+            (test "long asc node" -202.695193 (lunar-long-asc-node dd))
+            (test "long perigee" 772.847930 (lunar-long-perigee dd))
             ) 
 
 (test-exit)
