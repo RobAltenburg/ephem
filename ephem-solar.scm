@@ -101,8 +101,8 @@
                        ln_get_solar_ecl_coords(jd, r);
                        a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
                        lst = C_list(&a, 2, 
-                                        C_flonum(&a, r->lat),
-                                        C_flonum(&a, r->lng));
+                                        C_flonum(&a, r->lng),
+                                        C_flonum(&a, r->lat));
                        free(r);
                        C_return(callback(lst));") jd)))
 
