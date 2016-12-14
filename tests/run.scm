@@ -4,7 +4,6 @@
 ; b33 radec 5.683 -2.4583
 
 (current-test-epsilon 0.0001)
-
 (define dd (exact->inexact (date->julian-day (make-date 0 0 0 16 11 12 2016 0 #f))))
 (define lng 0)
 (define lat 51.5)
@@ -25,15 +24,26 @@
 ;;}}}
 
 (test-group "solar" ;;{{{1
-            
             (define rst (solar-rst dd (make-ecl lng lat)))
-            (rst-rise rst)
-            (define srise (get-date (rst-rise rst)))
 
-
-            (test "rise" 2457734.830328 (rst-rise rst))
-            (test "set" 2457735.159715 (rst-set rst))
-            (test "transit" 2457734.995078 (rst-transit rst))
+            (define sunrise (get-date (rst-rise rst)))
+            (test "sunrise day" 12 (date-day sunrise))
+            (test "sunrise hours" 7 (date-hour sunrise))
+            (test "sunrise minute" 55 (date-minute sunrise))
+            ;;(test "sunrise seconds" 41.9655 (+ (date-second sunrise) (/ (date-nanosecond sunrise) 1e+9)))
+            
+            (define sunset (get-date (rst-set rst)))
+            (test "sunset day" 12 (date-day sunset))
+            (test "sunset hours" 15 (date-hour sunset))
+            (test "sunset minute" 49 (date-minute sunset))
+            ;;(test "sunset seconds" 57.6132 (+ (date-second sunset) (/ (date-nanosecond sunset) 1e+9)))
+            
+            (define transit (get-date (rst-transit rst)))
+            (test "transit day" 12 (date-day transit))
+            (test "transit hours" 11 (date-hour transit))
+            (test "transit minute" 52 (date-minute transit))
+            ;;(test "transit seconds" 54.6300 (+ (date-second transit) (/ (date-nanosecond transit) 1e+9)))
+            
             (define ll (solar-ecl-coords dd ))
             (test "ecl lng" 259.820349 (ecl-lng ll))
             (test "ecl lat" -0.002017 (ecl-lat ll))
@@ -72,33 +82,3 @@
 
 (test-exit)
 
-;;; JD 2457734.166670
-;;; Solar Coords longitude (deg) 259.820349
-;;;              latitude (deg) -0.002017
-;;;              radius vector (AU) 0.984565
-;;; Solar Position RA 258.924254
-;;;                DEC -23.048520
-;;; 
-;;; Rise
-;;;  Year    : 2016
-;;;  Month   : 12
-;;;  Day     : 12
-;;;  Hours   : 7
-;;;  Minutes : 55
-;;;  Seconds : 41.965565
-;;; 
-;;; Transit
-;;;  Year    : 2016
-;;;  Month   : 12
-;;;  Day     : 12
-;;;  Hours   : 11
-;;;  Minutes : 52
-;;;  Seconds : 54.630068
-;;; 
-;;; Set
-;;;  Year    : 2016
-;;;  Month   : 12
-;;;  Day     : 12
-;;;  Hours   : 15
-;;;  Minutes : 49
-;;;  Seconds : 57.613272
