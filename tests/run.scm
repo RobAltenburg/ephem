@@ -2,7 +2,9 @@
 ; mayhill lnlat -105.5287 32.903
 ; harrisburg lnlat -76.8867 40.2732 
 ; b33 radec 5.683 -2.4583
-(current-test-epsilon 0.000001)
+
+(current-test-epsilon 0.0001)
+
 (define dd (exact->inexact (date->julian-day (make-date 0 0 0 16 11 12 2016 0 #f))))
 (define lng 0)
 (define lat 51.5)
@@ -23,7 +25,12 @@
 ;;}}}
 
 (test-group "solar" ;;{{{1
+            
             (define rst (solar-rst dd (make-ecl lng lat)))
+            (rst-rise rst)
+            (define srise (get-date (rst-rise rst)))
+
+
             (test "rise" 2457734.830328 (rst-rise rst))
             (test "set" 2457735.159715 (rst-set rst))
             (test "transit" 2457734.995078 (rst-transit rst))
