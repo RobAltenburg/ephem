@@ -8,8 +8,7 @@
 
 ;;; Module Definition {{{1
 (module ephem-rise-set
-        (object-rst object-next-rst)
-         ;;> object-next-rst object-next-rst-horizon
+        (object-rst object-next-rst object-next-rst-horizon)
          ;;> body-rst-horizon body-next-rst-horizon
          ;;> body-next-rst-horizon-future)
 
@@ -29,7 +28,7 @@
 
     ;; returns rst record type in jd
     (define (object-rst jd ecl-in equ-in)
-      (apply make-rstc 
+      (apply make-rst 
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -53,7 +52,7 @@
 
     ;; returns rst record type in jd
     (define (object-next-rst jd ecl-in equ-in)
-      (apply make-rstc
+      (apply make-rst
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -78,7 +77,7 @@
 
     ;; returns rst record type in jd
     (define (object-next-rst-horizon jd ecl-in equ-in horizon)
-      (apply make-rstc
+      (apply make-rst
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec)
                                                          (double horizon))

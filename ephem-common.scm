@@ -9,7 +9,7 @@
 ;;; Module Definition {{{1
 (module ephem-common
         (range-hours range-degrees range-degrees180
-         make-rstc rstc-rise rstc-set rstc-transit rstc-circumpolar
+         make-rst rst-rise rst-set rst-transit rst-circumpolar
          make-rst rst-rise rst-set rst-transit
          make-rect rect-x rect-y rect-z
          make-helio helio-l helio-b helio-r
@@ -45,20 +45,16 @@
         ((> degrees 180) (range-degrees180 (- degrees 360)))
         (else degrees)))
 
-    (define-record-type rstc
-        (make-rstc rise set transit circumpolar)
-        rstc?
-        (rise rstc-rise (setter rstc-rise)) 
-        (set rstc-set (setter rstc-set)) 
-        (transit rstc-transit (setter rstc-transit)) 
-        (circumpolar rstc-circumpolar (setter rstc-circumpolar)))
-
     (define-record-type rst
-        (make-rst rise set transit)
+        (_make-rst rise set transit circumpolar)
         rst?
         (rise rst-rise (setter rst-rise)) 
         (set rst-set (setter rst-set)) 
-        (transit rst-transit (setter rst-transit)))
+        (transit rst-transit (setter rst-transit)) 
+        (circumpolar rst-circumpolar (setter rst-circumpolar)))
+
+    (define (make-rst rise set transit #!optional (circumpolar #f))
+        (_make-rst rise set transit circumpolar))
 
     (define-record-type rect
         (make-rect x y z)

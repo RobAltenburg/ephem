@@ -9,15 +9,15 @@
                              (make-date 0 0 30 7 13 12 2016 (* 3600 0)  #f))))
 (define my-ecl (make-ecl -76.8867 40.2732))
 (define my-equ (make-equ 20.97 -23.18))
-(define rstc (object-rst dd my-ecl my-equ)) 
+(define rst (object-rst dd my-ecl my-equ)) 
 (define rst (solar-rst dd my-ecl)) 
 (define sequ (solar-equ-coords dd))
 (define shrz (hrz-from-equ sequ my-ecl dd))
 (fmt #t nl (fix 5 dd) nl
      "sunrise: " (get-date (rst-rise rst)) nl
-     "xsunrise: " (get-date (rstc-rise rstc)) nl
+     "xsunrise: " (get-date (rst-rise rst)) nl
      "sunset: " (get-date (rst-set rst)) nl
-     "xsunset: " (get-date (rstc-set rstc)) nl
+     "xsunset: " (get-date (rst-set rst)) nl
      "equ: " (fix 2 (* 24 (/ (equ-ra sequ) 360))) " " 
      (fix 2 (equ-dec sequ)) nl
      "hrz: " (fix 2 (hrz-az shrz)) " "  (fix 2 (hrz-alt shrz)) nl)
