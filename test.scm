@@ -1,3 +1,5 @@
+(exit)
+csi
 (use numbers srfi-19 ephem fmt)
 
 ; mayhill lnlat -105.5287 32.903
@@ -13,7 +15,8 @@
 (define rstb (body-rst-horizon dd my-ecl 'moon 0)) 
 (fmt #t nl (fix 5 dd) nl
      "object: " (get-date (rst-rise rst)) " -- " (get-date (rst-rise rst)) nl
-     "body:   " (get-date (rst-rise rstb)) " -- " (get-date (rst-rise rstb)) nl)
+     "body:   " (get-date (rst-rise rstb)) " -- " (get-date (rst-rise rstb)) nl
+     "const:  " (get-constellation my-equ) nl)
 
 
 

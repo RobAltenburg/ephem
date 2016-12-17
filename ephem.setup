@@ -50,6 +50,9 @@
 (setup-shared-extension-module 'ephem-refraction (extension-version "0.0.1")
   #:compile-options '(-optimize-level 1 -lnova))
 
+(setup-shared-extension-module 'ephem-constellation (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 1 -lnova))
+
 (setup-shared-extension-module 'ephem-transform (extension-version "0.0.1")
   #:compile-options '(-optimize-level 1 -lnova))
 
