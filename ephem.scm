@@ -14,7 +14,9 @@
           lunar-geo-posn lunar-equ-coords-prec lunar-ecl-coords
           solar-rst-horizon solar-rst solar-geom-coords solar-equ-coords 
           solar-ecl-coords solar-geo-coords solar-sdiam
-          object-rst get-date
+          get-date object-rst object-next-rst object-next-rst-horizon
+          body-equ-pointer body-rst-horizon body-next-rst-horizon  
+          body-next-rst-horizon-future
           mercury-sdiam mercury-rst mercury-helio-coords mercury-equ-coords
           mercury-earth-dist mercury-solar-dist mercury-magnitude 
           mercury-disk mercury-phase mercury-rect-helio
