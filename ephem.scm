@@ -40,7 +40,7 @@
           pluto-earth-dist pluto-solar-dist pluto-magnitude 
           pluto-disk pluto-phase pluto-rect-helio
           angular-separation rel-posn-angle refraction-adj
-          get-constellation
+          get-constellation get-apparent-posn
           hrz-from-equ hrz-from-equ-sidereal-time equ-from-ecl ecl-from-equ rect-from-helio 
           ecl-from-rect equ-from-gal equ2000-from-gal gal-from-equ gal-from-equ2000
           range-hours range-degrees range-degrees180
@@ -59,13 +59,13 @@
             ephem-mercury ephem-venus ephem-jupiter ephem-saturn
             ephem-neptune ephem-uranus ephem-pluto
             ephem-refraction ephem-transform ephem-constellation 
-            ephem-aberration ephem-common)
+            ephem-aberration ephem-apparent ephem-common)
 
     (use ephem-sidereal ephem-lunar ephem-solar ephem-rise-set ephem-julian-day
             ephem-angular ephem-mercury ephem-venus ephem-jupiter ephem-saturn
             ephem-neptune ephem-uranus ephem-pluto
             ephem-refraction ephem-transform ephem-constellation 
-            ephem-aberration ephem-common)
+            ephem-aberration ephem-apparent ephem-common)
 
 ;;; }}}
 
@@ -78,6 +78,7 @@
     (foreign-declare "#include <libnova/julian_day.h>")
     (foreign-declare "#include <libnova/angular_separation.h>")
     (foreign-declare "#include <libnova/aberration.h>")
+    (foreign-declare "#include <libnova/apparent_position.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
 ;;; }}} 
 

@@ -5,6 +5,9 @@
 (setup-shared-extension-module 'ephem-common (extension-version "0.0.1")
   #:compile-options '(-optimize-level 1 -lnova))
 
+(setup-shared-extension-module 'ephem-apparent (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 1 -lnova))
+
 (setup-shared-extension-module 'ephem-aberration (extension-version "0.0.1")
   #:compile-options '(-optimize-level 1 -lnova))
 
