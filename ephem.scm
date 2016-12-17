@@ -17,6 +17,7 @@
           get-date object-rst object-next-rst object-next-rst-horizon
           body-equ-pointer body-rst-horizon body-next-rst-horizon  
           body-next-rst-horizon-future
+          get-equ-aberration get-ecl-aberration
           mercury-sdiam mercury-rst mercury-helio-coords mercury-equ-coords
           mercury-earth-dist mercury-solar-dist mercury-magnitude 
           mercury-disk mercury-phase mercury-rect-helio
@@ -58,12 +59,13 @@
             ephem-mercury ephem-venus ephem-jupiter ephem-saturn
             ephem-neptune ephem-uranus ephem-pluto
             ephem-refraction ephem-transform ephem-constellation 
-            ephem-common)
+            ephem-aberration ephem-common)
 
     (use ephem-sidereal ephem-lunar ephem-solar ephem-rise-set ephem-julian-day
             ephem-angular ephem-mercury ephem-venus ephem-jupiter ephem-saturn
             ephem-neptune ephem-uranus ephem-pluto
-            ephem-refraction ephem-transform ephem-constellation ephem-common)
+            ephem-refraction ephem-transform ephem-constellation 
+            ephem-aberration ephem-common)
 
 ;;; }}}
 
@@ -75,6 +77,7 @@
     (foreign-declare "#include <libnova/rise_set.h>")
     (foreign-declare "#include <libnova/julian_day.h>")
     (foreign-declare "#include <libnova/angular_separation.h>")
+    (foreign-declare "#include <libnova/aberration.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
 ;;; }}} 
 
