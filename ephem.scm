@@ -21,6 +21,7 @@
           body-next-rst-horizon-future
           equ-aberration ecl-aberration
           dynamical-time-diff jde
+          earth-helio-coords earth-solar-dist earth-rect-helio earth-centre-dist
           mercury-sdiam mercury-rst mercury-helio-coords mercury-equ-coords
           mercury-earth-dist mercury-solar-dist mercury-magnitude 
           mercury-disk mercury-phase mercury-rect-helio
@@ -57,6 +58,7 @@
           make-hrz hrz-az hrz-alt
           make-ell ell-a ell-e ell-i ell-w ell-omega ell-n ell-jd
           make-par par-q par-i par-w par-omega par-jd
+          make-nutation nutation-longitude nutation-obliquity nutation-ecliptic
           is-above-horizon? dms->deg hms->hr)
         ;;;}}}
           
@@ -65,7 +67,7 @@
     (use ephem-common
             ephem-sidereal ephem-lunar ephem-solar ephem-rise-set ephem-julian-day
             ephem-angular ephem-mercury ephem-venus ephem-jupiter ephem-saturn
-            ephem-neptune ephem-uranus ephem-pluto
+            ephem-neptune ephem-uranus ephem-pluto ephem-earth
             ephem-refraction ephem-transform ephem-constellation 
             ephem-aberration ephem-apparent ephem-comet ephem-dynamical)
 ;;; }}}
@@ -76,6 +78,7 @@
     (foreign-declare "#include <libnova/lunar.h>")
     (foreign-declare "#include <libnova/solar.h>")
     (foreign-declare "#include <libnova/mercury.h>")
+    (foreign-declare "#include <libnova/earth.h>")
     (foreign-declare "#include <libnova/rise_set.h>")
     (foreign-declare "#include <libnova/julian_day.h>")
     (foreign-declare "#include <libnova/angular_separation.h>")

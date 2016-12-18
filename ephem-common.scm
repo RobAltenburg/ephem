@@ -18,7 +18,8 @@
          make-hrz hrz-az hrz-alt
          make-gal gal-l gal-b
          make-ell ell-a ell-e ell-i ell-w ell-omega ell-n ell-jd
-         make-par par-q par-i par-w par-omega par-jd)
+         make-par par-q par-i par-w par-omega par-jd
+         make-nutation nutation-longitude nutation-obliquity nutation-ecliptic)
 
     (import chicken scheme foreign)
 
@@ -115,6 +116,13 @@
         (w par-w (setter par-w))
         (omega par-omega (setter par-omega))
         (jd par-jd (setter par-jd)))
+
+    (define-record-type nutation
+        (make-nutation longitude obliquity ecliptic)
+        nutation?
+        (longitude nutation-longitude (setter nutation-longitude))
+        (longitude nutation-obliquity (setter nutation-longitude))
+        (longitude nutation-ecliptic (setter nutation-longitude)))
 
 ;;; }}}
 
