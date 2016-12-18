@@ -8,7 +8,7 @@
 
 ;;; Module Definition {{{1
 (module ephem-aberration
-        (get-equ-aberration get-ecl-aberration)
+        (equ-aberration ecl-aberration)
 
     (import chicken scheme foreign)
     (use ephem-common)
@@ -25,7 +25,7 @@
 ;;; Aberration {{{1
 
     ;; returns equ type
-    (define (get-equ-aberration equ-in jd)
+    (define (equ-aberration equ-in jd)
       (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double ra) (double dec) (double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -44,7 +44,7 @@
                        jd)))
                        
 
-     (define (get-ecl-aberration ecl-in jd)
+     (define (ecl-aberration ecl-in jd)
       (apply make-ecl
         ((foreign-safe-lambda* scheme-object ((double lng) (double lat) (double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;

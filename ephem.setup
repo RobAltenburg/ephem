@@ -11,6 +11,12 @@
 (setup-shared-extension-module 'ephem-aberration (extension-version "0.0.1")
   #:compile-options '(-optimize-level 1 -lnova))
 
+(setup-shared-extension-module 'ephem-comet (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 1 -lnova))
+
+(setup-shared-extension-module 'ephem-dynamical (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 1 -lnova))
+
 (setup-shared-extension-module 'ephem-sidereal (extension-version "0.0.1")
   #:compile-options '(-optimize-level 1 -lnova))
 

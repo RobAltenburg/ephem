@@ -7,7 +7,9 @@
 ;;; 
 
 ;;; Module Definition {{{1
-(module ephem 
+(module ephem
+
+        ;;; functions {{{2
         (gmst gast lmst last
           lunar-phase lunar-disk lunar-sdiam lunar-earth-dist lunar-bright-limb 
           lunar-long-asc-node lunar-long-perigee lunar-equ-coords lunar-rst
@@ -17,7 +19,8 @@
           get-date object-rst object-next-rst object-next-rst-horizon
           body-equ-pointer body-rst-horizon body-next-rst-horizon  
           body-next-rst-horizon-future
-          get-equ-aberration get-ecl-aberration
+          equ-aberration ecl-aberration
+          dynamical-time-diff jde
           mercury-sdiam mercury-rst mercury-helio-coords mercury-equ-coords
           mercury-earth-dist mercury-solar-dist mercury-magnitude 
           mercury-disk mercury-phase mercury-rect-helio
@@ -40,9 +43,10 @@
           pluto-earth-dist pluto-solar-dist pluto-magnitude 
           pluto-disk pluto-phase pluto-rect-helio
           angular-separation rel-posn-angle refraction-adj
-          get-constellation get-apparent-posn
+          constellation apparent-posn
           hrz-from-equ hrz-from-equ-sidereal-time equ-from-ecl ecl-from-equ rect-from-helio 
           ecl-from-rect equ-from-gal equ2000-from-gal gal-from-equ gal-from-equ2000
+          ell-comet-mag par-comet-mag
           range-hours range-degrees range-degrees180
           make-rst rst-rise rst-set rst-transit rst-circumpolar
           make-rst rst-rise rst-set rst-transit 
@@ -51,26 +55,24 @@
           make-ecl ecl-lng ecl-lat
           make-equ equ-ra equ-dec
           make-hrz hrz-az hrz-alt
+          make-ell ell-a ell-e ell-i ell-w ell-omega ell-n ell-jd
+          make-par par-q par-i par-w par-omega par-jd
           is-above-horizon? dms->deg hms->hr)
+        ;;;}}}
           
-    (import chicken scheme foreign 
-            ephem-sidereal ephem-lunar ephem-solar ephem-rise-set
-            ephem-julian-day ephem-angular
-            ephem-mercury ephem-venus ephem-jupiter ephem-saturn
-            ephem-neptune ephem-uranus ephem-pluto
-            ephem-refraction ephem-transform ephem-constellation 
-            ephem-aberration ephem-apparent ephem-common)
+    (import chicken scheme foreign)
 
-    (use ephem-sidereal ephem-lunar ephem-solar ephem-rise-set ephem-julian-day
+    (use ephem-common
+            ephem-sidereal ephem-lunar ephem-solar ephem-rise-set ephem-julian-day
             ephem-angular ephem-mercury ephem-venus ephem-jupiter ephem-saturn
             ephem-neptune ephem-uranus ephem-pluto
             ephem-refraction ephem-transform ephem-constellation 
-            ephem-aberration ephem-apparent ephem-common)
-
+            ephem-aberration ephem-apparent ephem-comet ephem-dynamical)
 ;;; }}}
 
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/sidereal_time.h>")
+    (foreign-declare "#include <libnova/dynamical_time.h>")
     (foreign-declare "#include <libnova/lunar.h>")
     (foreign-declare "#include <libnova/solar.h>")
     (foreign-declare "#include <libnova/mercury.h>")
@@ -78,6 +80,7 @@
     (foreign-declare "#include <libnova/julian_day.h>")
     (foreign-declare "#include <libnova/angular_separation.h>")
     (foreign-declare "#include <libnova/aberration.h>")
+    (foreign-declare "#include <libnova/comet.h>")
     (foreign-declare "#include <libnova/apparent_position.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
 ;;; }}} 

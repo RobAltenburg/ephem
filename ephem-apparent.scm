@@ -8,7 +8,7 @@
 
 ;;; Module Definition {{{1
 (module ephem-apparent
-        (get-apparent-posn)
+        (apparent-posn)
 
     (import chicken scheme foreign)
     (use ephem-common)
@@ -25,7 +25,7 @@
 ;;; Apparent {{{1
 
     ;; returns equ type
-    (define (get-apparent-posn equ-in proper-in jd)
+    (define (apparent-posn equ-in proper-in jd)
       (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double ra) (double dec) (double pra) (double pdec) (double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;

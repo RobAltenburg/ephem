@@ -8,7 +8,7 @@
 
 ;;; Module Definition {{{1
 (module ephem-constellation
-        (get-constellation) 
+        (constellation) 
 
     (import chicken scheme foreign)
     (use ephem-common)
@@ -23,7 +23,7 @@
 ;;; Constellation {{{1
 
     ;; returns 
-    (define (get-constellation equ-in)
+    (define (constellation equ-in)
         ((foreign-lambda* nonnull-c-string ((double ra) (double dec))
                        "struct ln_equ_posn in = {.ra = ra, .dec = dec};
                        C_return(ln_get_constellation(&in));")

@@ -16,7 +16,9 @@
          make-ecl ecl-lng ecl-lat
          make-equ equ-ra equ-dec
          make-hrz hrz-az hrz-alt
-         make-gal gal-l gal-b)
+         make-gal gal-l gal-b
+         make-ell ell-a ell-e ell-i ell-w ell-omega ell-n ell-jd
+         make-par par-q par-i par-w par-omega par-jd)
 
     (import chicken scheme foreign)
 
@@ -93,6 +95,26 @@
         gal?
         (l gal-l (setter gal-l)) 
         (b gal-b (setter gal-b))) 
+
+    (define-record-type ell
+        (make-ell a e i w omega n jd)
+        ell?
+        (a ell-a (setter ell-a))
+        (e ell-e (setter ell-e))
+        (i ell-i (setter ell-i))
+        (w ell-w (setter ell-w))
+        (omega ell-omega (setter ell-omega))
+        (n ell-n (setter ell-n))
+        (jd ell-jd (setter ell-jd)))
+
+    (define-record-type par 
+        (make-par q i w omega jd)
+        par?
+        (q par-q (setter par-q))
+        (i par-i (setter par-i))
+        (w par-w (setter par-w))
+        (omega par-omega (setter par-omega))
+        (jd par-jd (setter par-jd)))
 
 ;;; }}}
 
