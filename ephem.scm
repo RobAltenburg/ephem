@@ -19,7 +19,11 @@
           get-date object-rst object-next-rst object-next-rst-horizon
           body-equ-pointer body-rst-horizon body-next-rst-horizon  
           body-next-rst-horizon-future
-          equ-aberration ecl-aberration
+          solve-kepler ell-mean-anomaly ell-true-anomaly ell-radius-vector
+          ell-smajor-diam ell-sminor-diam ell-mean-motion ell-geo-rect-posn
+          ell-helio-rect-posn ell-orbit-len ell-orbit-vel ell-orbit-pvel 
+          ell-orbit-avel ell-body-phase-angle ell-body-elong ell-body-solar-dist
+          ell-body-earth-dist equ-aberration ecl-aberration
           dynamical-time-diff jde
           earth-helio-coords earth-solar-dist earth-rect-helio earth-centre-dist
           mercury-sdiam mercury-rst mercury-helio-coords mercury-equ-coords
@@ -71,12 +75,13 @@
             ephem-neptune ephem-uranus ephem-pluto ephem-earth
             ephem-refraction ephem-transform ephem-constellation 
             ephem-aberration ephem-apparent ephem-comet ephem-dynamical
-            ephem-nutation)
+            ephem-nutation ephem-elliptic)
 ;;; }}}
 
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/sidereal_time.h>")
     (foreign-declare "#include <libnova/dynamical_time.h>")
+    (foreign-declare "#include <libnova/elliptic_motion.h>")
     (foreign-declare "#include <libnova/lunar.h>")
     (foreign-declare "#include <libnova/solar.h>")
     (foreign-declare "#include <libnova/mercury.h>")
