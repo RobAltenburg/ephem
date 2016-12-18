@@ -23,7 +23,8 @@
           ell-smajor-diam ell-sminor-diam ell-mean-motion ell-geo-rect-posn
           ell-helio-rect-posn ell-orbit-len ell-orbit-vel ell-orbit-pvel 
           ell-orbit-avel ell-body-phase-angle ell-body-elong ell-body-solar-dist
-          ell-body-earth-dist equ-aberration ecl-aberration
+          ell-body-earth-dist ell-body-equ-coords
+          equ-aberration ecl-aberration
           dynamical-time-diff jde
           earth-helio-coords earth-solar-dist earth-rect-helio earth-centre-dist
           mercury-sdiam mercury-rst mercury-helio-coords mercury-equ-coords

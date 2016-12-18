@@ -13,7 +13,7 @@
                       ell-geo-rect-posn ell-helio-rect-posn ell-orbit-len
                       ell-orbit-vel ell-orbit-pvel ell-orbit-avel
                       ell-body-phase-angle ell-body-elong ell-body-solar-dist
-                      ell-body-earth-dist)
+                      ell-body-earth-dist ell-body-equ-coords)
 
     (import chicken scheme foreign)
     (use ephem-common)
@@ -207,7 +207,32 @@
                        (ell-n ell-in)
                        (ell-jd ell-in)))
 
-
+    ;; returns equ type 
+    (define (ell-body-equ-coords jdin ell-in)
+      (apply make-equ
+        ((foreign-safe-lambda* scheme-object ((double jdin) (double a) (double e) (double i) (double w)
+                                              (double omega) (double n) (double jde))
+                       "C_word lst = C_SCHEME_END_OF_LIST, *al;
+                       struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
+                                               .omega = omega, .n = n, .JD = jde};
+                       struct ln_equ_posn *out;
+                       out = malloc(sizeof(struct ln_equ_posn));
+                       ln_get_ell_body_equ_coords(jdin, &in, out);
+                       al = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
+                       lst = C_list(&al, 3, 
+                                        C_flonum(&al, out->ra),
+                                        C_flonum(&al, out->dec));
+                       free(out);
+                       C_return(callback(lst));")
+                       jdin
+                       (ell-a ell-in)
+                       (ell-e ell-in)
+                       (ell-i ell-in)
+                       (ell-w ell-in)
+                       (ell-omega ell-in)
+                       (ell-n ell-in)
+                       (ell-jd ell-in))))
+ 
  ;;; }}}
 
 )              
