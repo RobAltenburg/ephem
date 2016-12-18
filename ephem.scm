@@ -25,7 +25,7 @@
           ell-orbit-avel ell-body-phase-angle ell-body-elong ell-body-solar-dist
           ell-body-earth-dist ell-body-equ-coords ell-body-rst ell-body-rst-horizon
           ell-body-next-rst-horizon ell-body-next-rst-horizon-future ell-last-perihelion
-          equ-aberration ecl-aberration
+          heliocentric-time-diff equ-aberration ecl-aberration
           dynamical-time-diff jde
           earth-helio-coords earth-solar-dist earth-rect-helio earth-centre-dist
           mercury-sdiam mercury-rst mercury-helio-coords mercury-equ-coords
@@ -77,7 +77,7 @@
             ephem-neptune ephem-uranus ephem-pluto ephem-earth
             ephem-refraction ephem-transform ephem-constellation 
             ephem-aberration ephem-apparent ephem-comet ephem-dynamical
-            ephem-nutation ephem-elliptic)
+            ephem-nutation ephem-elliptic ephem-heliocentric)
 ;;; }}}
 
 ;;; Headers {{{1 
@@ -94,6 +94,7 @@
     (foreign-declare "#include <libnova/aberration.h>")
     (foreign-declare "#include <libnova/comet.h>")
     (foreign-declare "#include <libnova/apparent_position.h>")
+    (foreign-declare "#include <libnova/heliocentric_time.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
 ;;; }}} 
 

@@ -2,3 +2,4 @@
 *.import.scm
 *.inline
 *.types
+*.txt
