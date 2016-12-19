@@ -18,7 +18,6 @@
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/ln_types.h>")
     (foreign-declare "#include <libnova/julian_day.h>")
-    (define-external (callback (scheme-object obj)) scheme-object obj)
 ;;; }}} 
 
 ;;; Julian Day {{{1

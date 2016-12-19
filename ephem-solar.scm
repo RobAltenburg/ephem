@@ -13,19 +13,18 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
+    (include "ephem-include.scm")
 
 ;;; }}}
 
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/solar.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
-    (define-external (callback (scheme-object obj)) scheme-object obj)
 ;;; }}} 
 
 ;;; Solar {{{1
     ;; returns rst type
     (define (solar-rst-horizon jd ecl horizon)
-      (apply make-rst
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat) (double horizon))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_lnlat_posn in = {.lat = lat, .lng = lng};
@@ -38,12 +37,11 @@
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit));
                        free(out);
-                       C_return(callback(lst));")
-                       jd (ecl-lng ecl) (ecl-lat ecl) horizon)))
+                       C_return(apply_make_rst(lst));")
+                       jd (ecl-lng ecl) (ecl-lat ecl) horizon)) ;)
 
     ;; returns rst tyoe
     (define (solar-rst jd ecl)
-      (apply make-rst
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_lnlat_posn in = {.lat = lat, .lng = lng};
@@ -56,12 +54,11 @@
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit));
                        free(out);
-                       C_return(callback(lst));")
-                       jd (ecl-lng ecl) (ecl-lat ecl))))
+                       C_return(apply_make_rst(lst));")
+                       jd (ecl-lng ecl) (ecl-lat ecl)))
 
     ;; returns helio type 
     (define (solar-geom-coords jd)
-      (apply make-helio
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_helio_posn *r;
@@ -73,12 +70,11 @@
                                         C_flonum(&a, r->B),
                                         C_flonum(&a, r->R));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_helio(lst));") jd))
 
                        
     ;; returns equ type
     (define (solar-equ-coords jd)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_equ_posn *r;
@@ -89,11 +85,10 @@
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_equ(lst));") jd))
 
     ;; returns ecl type
     (define (solar-ecl-coords jd)
-      (apply make-ecl
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_lnlat_posn *r;
@@ -104,11 +99,10 @@
                                         C_flonum(&a, r->lng),
                                         C_flonum(&a, r->lat));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_ecl(lst));") jd))
 
     ;; returns rect tyoe
     (define (solar-geo-coords jd)
-      (apply make-rect
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_rect_posn *r;
@@ -120,7 +114,7 @@
                                         C_flonum(&a, r->Y),
                                         C_flonum(&a, r->Z));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_rect(lst));") jd))
 
     (define solar-sdiam 
       (foreign-lambda double "ln_get_solar_sdiam" double))

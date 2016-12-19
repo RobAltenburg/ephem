@@ -27,7 +27,8 @@
 
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/ln_types.h>")
-;;; }}} 
+    (define-external (apply_make_rst (scheme-object obj)) scheme-object (apply make-rst obj))
+;; }}} 
 
 ;;; Common {{{1
     (define (range-hours hours)

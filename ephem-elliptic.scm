@@ -19,13 +19,13 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
+    (include "ephem-include.scm")
 
 ;;; }}}
 
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/elliptic_motion.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
-    (define-external (callback (scheme-object obj)) scheme-object obj)
 
 ;;; }}} 
 
@@ -40,7 +40,6 @@
     
     ;; returns rect type 
     (define (ell-geo-rect-posn ell-in jdin)
-      (apply make-rect
         ((foreign-safe-lambda* scheme-object ((double a) (double e) (double i) (double w)
                                               (double omega) (double n) (double jde) (double jdin))
                        "C_word lst = C_SCHEME_END_OF_LIST, *al;
@@ -55,7 +54,7 @@
                                         C_flonum(&al, out->Y),
                                         C_flonum(&al, out->Z));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_rect(lst));")
                        (ell-a ell-in)
                        (ell-e ell-in)
                        (ell-i ell-in)
@@ -63,11 +62,10 @@
                        (ell-omega ell-in)
                        (ell-n ell-in)
                        (ell-jd ell-in)
-                       jdin)))
+                       jdin))
  
     ;; returns rect type 
     (define (ell-helio-rect-posn ell-in jdin)
-      (apply make-rect
         ((foreign-safe-lambda* scheme-object ((double a) (double e) (double i) (double w)
                                               (double omega) (double n) (double jde) (double jdin))
                        "C_word lst = C_SCHEME_END_OF_LIST, *al;
@@ -82,7 +80,7 @@
                                         C_flonum(&al, out->Y),
                                         C_flonum(&al, out->Z));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_rect(lst));")
                        (ell-a ell-in)
                        (ell-e ell-in)
                        (ell-i ell-in)
@@ -90,7 +88,7 @@
                        (ell-omega ell-in)
                        (ell-n ell-in)
                        (ell-jd ell-in)
-                       jdin)))
+                       jdin))
 
     (define (ell-orbit-len ell-in) 
         ((foreign-safe-lambda* double ((double a) (double e) (double i) (double w)
@@ -211,7 +209,6 @@
 
     ;; returns equ type 
     (define (ell-body-equ-coords jdin ell-in)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double jdin) (double a) (double e) (double i) (double w)
                                               (double omega) (double n) (double jde))
                        "C_word lst = C_SCHEME_END_OF_LIST, *al;
@@ -225,7 +222,7 @@
                                         C_flonum(&al, out->ra),
                                         C_flonum(&al, out->dec));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_equ(lst));")
                        jdin
                        (ell-a ell-in)
                        (ell-e ell-in)
@@ -233,11 +230,10 @@
                        (ell-w ell-in)
                        (ell-omega ell-in)
                        (ell-n ell-in)
-                       (ell-jd ell-in))))
+                       (ell-jd ell-in)))
 
     ;; returns rst type 
     (define (ell-body-rst jdin ecl-in ell-in)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double jdin) (double lng) (double lat ) 
                                               (double a) (double e) (double i) (double w)
                                               (double omega) (double n) (double jde))
@@ -254,7 +250,7 @@
                                         C_flonum(&al, out->set),
                                         C_flonum(&al, out->transit));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_equ(lst));")
                        jdin
                        (ecl-lng ecl-in)
                        (ecl-lat ecl-in)
@@ -264,11 +260,10 @@
                        (ell-w ell-in)
                        (ell-omega ell-in)
                        (ell-n ell-in)
-                       (ell-jd ell-in))))
+                       (ell-jd ell-in)))
  
      ;; returns rst type 
     (define (ell-body-rst-horizon jdin ecl-in ell-in horizon)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double jdin) (double lng) (double lat ) 
                                               (double a) (double e) (double i) (double w)
                                               (double omega) (double n) (double jde)
@@ -286,7 +281,7 @@
                                         C_flonum(&al, out->set),
                                         C_flonum(&al, out->transit));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_equ(lst));")
                        jdin
                        (ecl-lng ecl-in)
                        (ecl-lat ecl-in)
@@ -297,11 +292,10 @@
                        (ell-omega ell-in)
                        (ell-n ell-in)
                        (ell-jd ell-in)
-                       horizon)))
+                       horizon))
 
     ;; returns rst type 
     (define (ell-body-next-rst-horizon jdin ecl-in ell-in horizon)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double jdin) (double lng) (double lat ) 
                                               (double a) (double e) (double i) (double w)
                                               (double omega) (double n) (double jde)
@@ -319,7 +313,7 @@
                                         C_flonum(&al, out->set),
                                         C_flonum(&al, out->transit));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_equ(lst));")
                        jdin
                        (ecl-lng ecl-in)
                        (ecl-lat ecl-in)
@@ -330,10 +324,9 @@
                        (ell-omega ell-in)
                        (ell-n ell-in)
                        (ell-jd ell-in)
-                       horizon)))
+                       horizon))
      ;; returns rst type 
     (define (ell-body-next-rst-horizon-future jdin ecl-in ell-in horizon daylimit)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double jdin) (double lng) (double lat ) 
                                               (double a) (double e) (double i) (double w)
                                               (double omega) (double n) (double jde)
@@ -351,7 +344,7 @@
                                         C_flonum(&al, out->set),
                                         C_flonum(&al, out->transit));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_equ(lst));")
                        jdin
                        (ecl-lng ecl-in)
                        (ecl-lat ecl-in)
@@ -363,7 +356,7 @@
                        (ell-n ell-in)
                        (ell-jd ell-in)
                        horizon
-                       daylimit)))
+                       daylimit))
     
     (define ell-last-perihelion (foreign-lambda double "ln_get_ell_last_perihelion" double double double))
  

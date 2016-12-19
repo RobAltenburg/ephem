@@ -1,0 +1,11 @@
+    (define-external (apply_make_rst (scheme-object obj)) scheme-object (apply make-rst obj))
+    (define-external (apply_make_rect (scheme-object obj)) scheme-object (apply make-rect obj))
+    (define-external (apply_make_helio (scheme-object obj)) scheme-object (apply make-helio obj))
+    (define-external (apply_make_ecl (scheme-object obj)) scheme-object (apply make-ecl obj))
+    (define-external (apply_make_equ (scheme-object obj)) scheme-object (apply make-equ obj))
+    (define-external (apply_make_hrz (scheme-object obj)) scheme-object (apply make-hrz obj))
+    (define-external (apply_make_gal (scheme-object obj)) scheme-object (apply make-gal obj))
+    (define-external (apply_make_ell (scheme-object obj)) scheme-object (apply make-ell obj))
+    (define-external (apply_make_par (scheme-object obj)) scheme-object (apply make-par obj))
+    (define-external (apply_make_nutation (scheme-object obj)) scheme-object (apply make-nutation obj))
+

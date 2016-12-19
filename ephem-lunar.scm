@@ -14,13 +14,13 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
+    (include "ephem-include.scm")
 
 ;;; }}}
 
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/lunar.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
-    (define-external (callback (scheme-object obj)) scheme-object obj)
 
 ;;; }}} 
 
@@ -30,7 +30,6 @@
 
     ;; returns rst type
     (define (lunar-rst jd ecl-in)
-      (apply make-rst
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_lnlat_posn in = {.lat = lat, .lng = lng};
@@ -43,14 +42,13 @@
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_rst(lst));")
                        jd
                        (ecl-lng ecl-in)
-                       (ecl-lat ecl-in))))
+                       (ecl-lat ecl-in)))
 
     ;; returns rect type
     (define (lunar-geo-posn jd precision)
-      (apply make-rect
         ((foreign-safe-lambda* scheme-object ((double jd) (double precision))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_rect_posn *r;
@@ -62,12 +60,11 @@
                                         C_flonum(&a, r->Y),
                                         C_flonum(&a, r->Z));
                        free(r);
-                       C_return(callback(lst));")
-                       jd precision)))
+                       C_return(apply_make_rect(lst));")
+                       jd precision))
 
     ;; returns equ type
     (define (lunar-equ-coords-prec jd precision)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double jd) (double precision))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_equ_posn *r;
@@ -78,12 +75,11 @@
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
                        free(r);
-                       C_return(callback(lst));")
-                       jd precision)))
+                       C_return(apply_make_equ(lst));")
+                       jd precision))
 
     ;; returns equ type
     (define (lunar-equ-coords jd)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_equ_posn *r;
@@ -94,11 +90,10 @@
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_equ(lst));") jd))
 
     ;; returns ecl type
     (define (lunar-ecl-coords jd precision)
-      (apply make-ecl
         ((foreign-safe-lambda* scheme-object ((double jd) (double precision))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_lnlat_posn *r;
@@ -109,7 +104,7 @@
                                         C_flonum(&a, r->lng),
                                         C_flonum(&a, r->lat));
                        free(r);
-                       C_return(callback(lst));") jd precision)))
+                       C_return(apply_make_ecl(lst));") jd precision))
 
    (define lunar-phase 
       (foreign-lambda double "ln_get_lunar_phase" double))

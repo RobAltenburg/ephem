@@ -9,7 +9,8 @@
                              (make-date 0 0 30 7 13 12 2016 (* 3600 0)  #f))))
 (define my-ecl (make-ecl -76.8867 40.2732))
 (define my-equ (make-equ 20.97 -23.18))
-(define rst (lunar-rst dd my-ecl))
+;(define rst (lunar-rst dd my-ecl))
+(define rst (solar-rst-horizon dd my-ecl 1))
 (define rstb (body-rst-horizon dd my-ecl 'moon 0)) 
 (define aber (equ-aberration my-equ dd)) 
 
@@ -17,6 +18,4 @@
      "object: " (get-date (rst-rise rst)) " -- " (get-date (rst-rise rst)) nl
      "body:   " (get-date (rst-rise rstb)) " -- " (get-date (rst-rise rstb)) nl
      "const:  " (constellation my-equ) nl)
-
-
 

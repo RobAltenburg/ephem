@@ -12,13 +12,13 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
+    (include "ephem-include.scm")
 
 ;;; }}}
 
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/nutation.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
-    (define-external (callback (scheme-object obj)) scheme-object obj)
 
 ;;; }}} 
 
@@ -26,7 +26,6 @@
 
     ;; returns nutation type
     (define (nutation jd)
-      (apply make-nutation
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_nutation *out;
@@ -38,8 +37,8 @@
                                         C_flonum(&a, out->obliquity),
                                         C_flonum(&a, out->ecliptic));
                        free(out);
-                       C_return(callback(lst));")
-                       jd)))
+                       C_return(apply_make_nutation(lst));")
+                       jd))
                        
 ;; }}}
 

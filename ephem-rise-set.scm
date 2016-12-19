@@ -14,6 +14,7 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
+    (include "ephem-include.scm")
 
 ;;; }}}
 
@@ -30,7 +31,6 @@
     (foreign-declare "#include <libnova/uranus.h>")
     (foreign-declare "#include <libnova/neptune.h>")
     (foreign-declare "#include <libnova/pluto.h>")
-    (define-external (callback (scheme-object obj)) scheme-object obj)
 
 ;;; }}} 
 
@@ -38,7 +38,6 @@
 
     ;; returns rst record type in jd
     (define (object-rst jd ecl-in equ-in)
-      (apply make-rst 
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -55,14 +54,13 @@
                                         C_flonum(&a, out->transit),
                                         C_fix(flag));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_rst(lst));")
                        jd
                        (ecl-lng ecl-in) (ecl-lat ecl-in)
-                       (equ-ra equ-in) (equ-dec equ-in))))
+                       (equ-ra equ-in) (equ-dec equ-in)))
 
     ;; returns rst record type in jd
     (define (object-next-rst jd ecl-in equ-in)
-      (apply make-rst
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -79,15 +77,14 @@
                                         C_flonum(&a, out->transit),
                                         C_fix(flag));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_rst(lst));")
                        jd
                        (ecl-lng ecl-in) (ecl-lat ecl-in)
-                       (equ-ra equ-in) (equ-dec equ-in))))
+                       (equ-ra equ-in) (equ-dec equ-in)))
 
 
     ;; returns rst record type in jd
     (define (object-next-rst-horizon jd ecl-in equ-in horizon)
-      (apply make-rst
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                          (double ra) (double dec)
                                                          (double horizon))
@@ -105,11 +102,11 @@
                                         C_flonum(&a, out->transit),
                                         C_fix(flag));
                        free(out); 
-                       C_return(callback(lst));")
+                       C_return(apply_make_rst(lst));")
                        jd
                        (ecl-lng ecl-in) (ecl-lat ecl-in)
                        (equ-ra equ-in) (equ-dec equ-in)
-                       horizon)))
+                       horizon))
 ;}}}
 
 ;;; Body Rise Set {{{1
@@ -140,7 +137,6 @@
     ;; returns rst record type in jd
     (define (body-rst-horizon jd ecl-in body horizon)
       (let ((bb (body-equ-pointer body)))
-          (apply make-rst 
             ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                   (nonnull-c-pointer body) (double horizon)) 
                            "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -156,16 +152,15 @@
                                             C_flonum(&a, out->transit),
                                             C_fix(flag));
                            free(out);
-                           C_return(callback(lst));")
+                           C_return(apply_make_rst(lst));")
                            jd
                            (ecl-lng ecl-in) (ecl-lat ecl-in)
-                           bb horizon))))
+                           bb horizon)))
     
     ;; note that "body" us a symbol
     ;; returns rst record type in jd
     (define (body-next-rst-horizon jd ecl-in body horizon)
       (let ((bb (body-equ-pointer body)))
-          (apply make-rst 
             ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                   (nonnull-c-pointer body) (double horizon)) 
                            "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -181,16 +176,15 @@
                                             C_flonum(&a, out->transit),
                                             C_fix(flag));
                            free(out);
-                           C_return(callback(lst));")
+                           C_return(apply_make_rst(lst));")
                            jd
                            (ecl-lng ecl-in) (ecl-lat ecl-in)
-                           bb horizon))))
+                           bb horizon)))
 
     ;; note that "body" us a symbol
     ;; returns rst record type in jd
     (define (body-next-rst-horizon-future jd ecl-in body horizon day-limit)
       (let ((bb (body-equ-pointer body)))
-          (apply make-rst 
             ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat)
                                                   (nonnull-c-pointer body) (double horizon) (double day_limit)) 
                            "C_word lst = C_SCHEME_END_OF_LIST, *a;
@@ -206,10 +200,10 @@
                                             C_flonum(&a, out->transit),
                                             C_fix(flag));
                            free(out);
-                           C_return(callback(lst));")
+                           C_return(apply_make_rst(lst));")
                            jd
                            (ecl-lng ecl-in) (ecl-lat ecl-in)
-                           bb horizon day-limit))))
+                           bb horizon day-limit)))
    
 
 ;;; }}}

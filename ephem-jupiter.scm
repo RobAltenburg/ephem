@@ -14,13 +14,13 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
+    (include "ephem-include.scm")
 
 ;;; }}}
 
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/jupiter.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
-    (define-external (callback (scheme-object obj)) scheme-object obj)
 
 ;;; }}} 
 
@@ -33,7 +33,6 @@
     
     ;; returns rst type 
     (define (jupiter-rst jd ecl-in)
-      (apply make-rst
         ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_lnlat_posn in = {.lat = lat, .lng = lng};
@@ -46,14 +45,13 @@
                                         C_flonum(&a, out->set),
                                         C_flonum(&a, out->transit));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_rst(lst));")
                        jd
                        (ecl-lng ecl-in)
-                       (ecl-lat ecl-in))))
+                       (ecl-lat ecl-in)))
 
     ;; returns helio type
     (define (jupiter-helio-coords jd)
-      (apply make-helio
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_helio_posn *r;
@@ -65,11 +63,10 @@
                                         C_flonum(&a, r->B),
                                         C_flonum(&a, r->R));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_helio(lst));") jd))
 
     ;; returns equ type 
     (define (jupiter-equ-coords jd)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_equ_posn *r;
@@ -80,11 +77,10 @@
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_equ(lst));") jd))
 
     ;; returns equ type
     (define (jupiter-equ-coords jd)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_equ_posn *r;
@@ -95,7 +91,7 @@
                                         C_flonum(&a, r->ra),
                                         C_flonum(&a, r->dec));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_equ(lst));") jd))
 
     (define jupiter-earth-dist 
       (foreign-lambda double "ln_get_jupiter_earth_dist" double))
@@ -110,7 +106,6 @@
 
     ;; returns rect type
     (define (jupiter-rect-helio jd)
-      (apply make-rect
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_rect_posn *r;
@@ -122,7 +117,7 @@
                                         C_flonum(&a, r->Y),
                                         C_flonum(&a, r->Z));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_rect(lst));") jd))
 
  ;;; }}}
 

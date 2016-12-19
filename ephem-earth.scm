@@ -12,19 +12,19 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
-;;; }}}
+    (include "ephem-include.scm")
+
+    ;;; }}}
 
 ;;; Headers {{{1 
     (foreign-declare "#include <libnova/earth.h>")
     (foreign-declare "#include <libnova/ln_types.h>")
-    (define-external (callback (scheme-object obj)) scheme-object obj)
 ;;; }}} 
 
 ;;; earth {{{1
     
     ;; returns helio type
     (define (earth-helio-coords jd)
-      (apply make-helio
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_helio_posn *r;
@@ -36,14 +36,13 @@
                                         C_flonum(&a, r->B),
                                         C_flonum(&a, r->R));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_helio(lst));") jd))
 
     (define earth-solar-dist
       (foreign-lambda double "ln_get_earth_solar_dist" double))
 
     ;; returns rect type
     (define (earth-rect-helio jd)
-      (apply make-rect
         ((foreign-safe-lambda* scheme-object ((double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_rect_posn *r;
@@ -55,7 +54,7 @@
                                         C_flonum(&a, r->Y),
                                         C_flonum(&a, r->Z));
                        free(r);
-                       C_return(callback(lst));") jd)))
+                       C_return(apply_make_rect(lst));") jd))
 
      (define (earth-centre-dist height latitude)
                ((foreign-safe-lambda* scheme-object ((double height) (double latitude))
@@ -66,7 +65,7 @@
                         vec = C_vector(&a, 2, 
                                         C_flonum(&a, p_sin_o),
                                         C_flonum(&a, p_cos_o));
-                        C_return(callback(vec));") height latitude))
+                        C_return(apply_make_equ(vec));") height latitude))
  ;;; }}}
 
 )              
