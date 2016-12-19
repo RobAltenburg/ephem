@@ -11,13 +11,10 @@
         (refraction-adj)
 
     (import chicken scheme foreign)
+    (use ephem-common)
+    (include "ephem-include.scm")
 
 ;;; }}}
-
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/refraction.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-;;; }}} 
 
 ;;; Atmospheric Refraction {{{1
     ;; double LIBNOVA_EXPORT    ln_get_refraction_adj (double altitude, double atm_pres, double temp)

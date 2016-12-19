@@ -16,12 +16,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/apparent_position.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
-
 ;;; Apparent {{{1
 
     ;; returns equ type

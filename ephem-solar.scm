@@ -17,11 +17,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/solar.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-;;; }}} 
-
 ;;; Solar {{{1
     ;; returns rst type
     (define (solar-rst-horizon jd ecl horizon)

@@ -16,11 +16,6 @@
     (include "ephem-include.scm")
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/ln_types.h>")
-    (foreign-declare "#include <libnova/transform.h>")
-;;; }}} 
-
 ;;; Transform {{{1
 
     ;; returns hrz type

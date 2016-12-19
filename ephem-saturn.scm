@@ -18,12 +18,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/saturn.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
-
 ;;; saturn {{{1
     (define saturn-equ-sdiam 
       (foreign-lambda double "ln_get_saturn_equ_sdiam" double))

@@ -18,12 +18,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/pluto.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
-
 ;;; pluto {{{1
     (define pluto-sdiam 
       (foreign-lambda double "ln_get_pluto_sdiam" double))

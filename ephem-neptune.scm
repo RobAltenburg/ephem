@@ -18,12 +18,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/neptune.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
-
 ;;; neptune {{{1
     (define neptune-sdiam 
       (foreign-lambda double "ln_get_neptune_sdiam" double))

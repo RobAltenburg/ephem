@@ -18,12 +18,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/lunar.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
-
 ;;; Lunar {{{1
     (define lunar-sdiam 
       (foreign-lambda double "ln_get_lunar_sdiam" double))

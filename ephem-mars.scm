@@ -18,12 +18,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/mars.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
-
 ;;; mars {{{1
     (define mars-sdiam 
       (foreign-lambda double "ln_get_mars_sdiam" double))

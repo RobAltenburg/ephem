@@ -3,85 +3,85 @@
 (verify-extension-name "ephem")
 
 (setup-shared-extension-module 'ephem-common (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-heliocentric (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-elliptic (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-apparent (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-aberration (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-nutation (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-comet (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-earth (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-dynamical (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-sidereal (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-solar (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-lunar (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-rise-set (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-julian-day (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-mercury (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-venus (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-mars (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-jupiter (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-saturn (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-uranus (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-neptune (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-pluto (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-angular (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-refraction (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-constellation (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem-transform (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 (setup-shared-extension-module 'ephem (extension-version "0.0.1")
-  #:compile-options '(-optimize-level 1 -lnova))
+  #:compile-options '(-optimize-level 3 -lnova))
 
 
 

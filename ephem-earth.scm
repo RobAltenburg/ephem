@@ -14,12 +14,7 @@
     (use ephem-common)
     (include "ephem-include.scm")
 
-    ;;; }}}
-
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/earth.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-;;; }}} 
+;;; }}}
 
 ;;; earth {{{1
     

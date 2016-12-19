@@ -12,21 +12,15 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
+    (include "ephem-include.scm")
+
 
 ;;; }}}
-
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/aberration.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-    (define-external (callback (scheme-object obj)) scheme-object obj)
-
-;;; }}} 
 
 ;;; Aberration {{{1
 
     ;; returns equ type
     (define (equ-aberration equ-in jd)
-      (apply make-equ
         ((foreign-safe-lambda* scheme-object ((double ra) (double dec) (double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_equ_posn in = {.ra = ra, .dec = dec};
@@ -38,14 +32,13 @@
                                         C_flonum(&a, out->ra),
                                         C_flonum(&a, out->dec));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_equ(lst));")
                        (equ-ra equ-in)
                        (equ-dec equ-in)
-                       jd)))
+                       jd))
                        
 
      (define (ecl-aberration ecl-in jd)
-      (apply make-ecl
         ((foreign-safe-lambda* scheme-object ((double lng) (double lat) (double jd))
                        "C_word lst = C_SCHEME_END_OF_LIST, *a;
                        struct ln_lnlat_posn in = {.lng = lng, .lat = lat};
@@ -57,10 +50,10 @@
                                         C_flonum(&a, out->lng),
                                         C_flonum(&a, out->lat));
                        free(out);
-                       C_return(callback(lst));")
+                       C_return(apply_make_ecl(lst));")
                        (ecl-lng ecl-in)
                        (ecl-lat ecl-in)
-                       jd)))
+                       jd))
                        
 ;; }}}
 

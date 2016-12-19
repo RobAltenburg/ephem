@@ -23,12 +23,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/elliptic_motion.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
-
 ;;; elliptic {{{1
     (define solve-kepler (foreign-lambda double "ln_solve_kepler" double double))
     (define ell-mean-anomaly (foreign-lambda double "ln_get_ell_mean_anomaly" double double))

@@ -18,12 +18,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/uranus.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
-
 ;;; uranus {{{1
     (define uranus-sdiam 
       (foreign-lambda double "ln_get_uranus_sdiam" double))

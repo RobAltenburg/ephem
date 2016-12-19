@@ -18,12 +18,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/jupiter.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
-
 ;;; jupiter {{{1
     (define jupiter-equ-sdiam 
       (foreign-lambda double "ln_get_jupiter_equ_sdiam" double))

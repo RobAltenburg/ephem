@@ -12,14 +12,9 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
+    (include "ephem-include.scm")
 
 ;;; }}}
-
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/comet.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
 
 ;;; Comet {{{1
 

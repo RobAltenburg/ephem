@@ -12,13 +12,9 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
+    (include "ephem-include.scm")
 
 ;;; }}}
-
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/angular_separation.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-;;; }}} 
 
 ;;; angular {{{1
     (define (angular-separation equ1 equ2)

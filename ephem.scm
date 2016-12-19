@@ -78,25 +78,9 @@
             ephem-refraction ephem-transform ephem-constellation 
             ephem-aberration ephem-apparent ephem-comet ephem-dynamical
             ephem-nutation ephem-elliptic ephem-heliocentric)
-;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/sidereal_time.h>")
-    (foreign-declare "#include <libnova/dynamical_time.h>")
-    (foreign-declare "#include <libnova/elliptic_motion.h>")
-    (foreign-declare "#include <libnova/lunar.h>")
-    (foreign-declare "#include <libnova/solar.h>")
-    (foreign-declare "#include <libnova/mercury.h>")
-    (foreign-declare "#include <libnova/earth.h>")
-    (foreign-declare "#include <libnova/rise_set.h>")
-    (foreign-declare "#include <libnova/julian_day.h>")
-    (foreign-declare "#include <libnova/angular_separation.h>")
-    (foreign-declare "#include <libnova/aberration.h>")
-    (foreign-declare "#include <libnova/comet.h>")
-    (foreign-declare "#include <libnova/apparent_position.h>")
-    (foreign-declare "#include <libnova/heliocentric_time.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-;;; }}} 
+    (include "ephem-include.scm")
+;;; }}}
 
 ;;; Extras (non-libnova) {{{1
 

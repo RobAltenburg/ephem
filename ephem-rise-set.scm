@@ -18,22 +18,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/ln_types.h>")
-    (foreign-declare "#include <libnova/rise_set.h>")
-    (foreign-declare "#include <libnova/lunar.h>")
-    (foreign-declare "#include <libnova/solar.h>")
-    (foreign-declare "#include <libnova/mercury.h>")
-    (foreign-declare "#include <libnova/venus.h>")
-    (foreign-declare "#include <libnova/mars.h>")
-    (foreign-declare "#include <libnova/jupiter.h>")
-    (foreign-declare "#include <libnova/saturn.h>")
-    (foreign-declare "#include <libnova/uranus.h>")
-    (foreign-declare "#include <libnova/neptune.h>")
-    (foreign-declare "#include <libnova/pluto.h>")
-
-;;; }}} 
-
 ;;; Rise Set {{{1
 
     ;; returns rst record type in jd

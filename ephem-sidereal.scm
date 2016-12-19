@@ -12,13 +12,9 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
+    (include "ephem-include.scm")
 
 ;;; }}}
-
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/sidereal_time.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-;;; }}} 
 
 ;;; Sidereal Time {{{1
     (define (gmst jd)

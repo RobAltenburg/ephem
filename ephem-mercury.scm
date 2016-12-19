@@ -18,12 +18,6 @@
 
 ;;; }}}
 
-;;; Headers {{{1 
-    (foreign-declare "#include <libnova/mercury.h>")
-    (foreign-declare "#include <libnova/ln_types.h>")
-
-;;; }}} 
-
 ;;; mercury {{{1
     (define mercury-sdiam 
       (foreign-lambda double "ln_get_mercury_sdiam" double))
