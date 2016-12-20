@@ -25,8 +25,11 @@
           ell-orbit-avel ell-body-phase-angle ell-body-elong ell-body-solar-dist
           ell-body-earth-dist ell-body-equ-coords ell-body-rst ell-body-rst-horizon
           ell-body-next-rst-horizon ell-body-next-rst-horizon-future ell-last-perihelion
-          heliocentric-time-diff equ-aberration ecl-aberration
-          dynamical-time-diff jde
+          solve-hyp-barker hyp-true-anomaly hyp-radius-vector hyp-geo-rect-posn hyp-helio-rect-posn 
+          hyp-body-equ-coords hyp-body-earth-dist  hyp-body-solar-dist hyp-body-phase-angle 
+          hyp-body-elong hyp-body-rst hyp-body-rst-horizon hyp-body-next-rst-horizon 
+          hyp-body-next-rst-horizon-future  heliocentric-time-diff 
+          equ-aberration ecl-aberration dynamical-time-diff jde
           earth-helio-coords earth-solar-dist earth-rect-helio earth-centre-dist
           mercury-sdiam mercury-rst mercury-helio-coords mercury-equ-coords
           mercury-earth-dist mercury-solar-dist mercury-magnitude 
@@ -64,6 +67,7 @@
           make-equ equ-ra equ-dec
           make-hrz hrz-az hrz-alt
           make-ell ell-a ell-e ell-i ell-w ell-omega ell-n ell-jd
+          make-hyp hyp-q hyp-e hyp-i hyp-w hyp-omega hyp-jd
           make-par par-q par-i par-w par-omega par-jd
           make-nutation nutation-longitude nutation-obliquity nutation-ecliptic
           is-above-horizon? dms->deg hms->hr)
@@ -77,7 +81,7 @@
             ephem-neptune ephem-uranus ephem-pluto ephem-earth
             ephem-refraction ephem-transform ephem-constellation 
             ephem-aberration ephem-apparent ephem-comet ephem-dynamical
-            ephem-nutation ephem-elliptic ephem-heliocentric)
+            ephem-nutation ephem-elliptic ephem-heliocentric ephem-hyperbolic)
 
     (include "ephem-include.scm")
 ;;; }}}

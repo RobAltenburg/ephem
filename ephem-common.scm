@@ -18,6 +18,7 @@
          make-hrz hrz-az hrz-alt
          make-gal gal-l gal-b
          make-ell ell-a ell-e ell-i ell-w ell-omega ell-n ell-jd
+         make-hyp hyp-q hyp-e hyp-i hyp-w hyp-omega hyp-jd
          make-par par-q par-i par-w par-omega par-jd
          make-nutation nutation-longitude nutation-obliquity nutation-ecliptic)
 
@@ -104,6 +105,16 @@
         (omega ell-omega (setter ell-omega))
         (n ell-n (setter ell-n))
         (jd ell-jd (setter ell-jd)))
+
+   (define-record-type hyp
+        (make-hyp q e i w omega jd)
+        hyp
+        (q hyp-q (setter hyp-q))
+        (e hyp-e (setter hyp-e))
+        (i hyp-i (setter hyp-i))
+        (w hyp-w (setter hyp-w))
+        (omega hyp-omega (setter hyp-omega))
+        (jd hyp-jd (setter hyp-jd)))
 
     (define-record-type par 
         (make-par q i w omega jd)
