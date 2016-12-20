@@ -21,6 +21,7 @@
     (foreign-declare "#include <libnova/earth.h>")
     (foreign-declare "#include <libnova/elliptic_motion.h>")
     (foreign-declare "#include <libnova/hyperbolic_motion.h>")
+    (foreign-declare "#include <libnova/parabolic_motion.h>")
     (foreign-declare "#include <libnova/heliocentric_time.h>")
     (foreign-declare "#include <libnova/julian_day.h>")
     (foreign-declare "#include <libnova/jupiter.h>")
