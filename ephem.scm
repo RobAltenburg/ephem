@@ -61,8 +61,8 @@
           pluto-disk pluto-phase pluto-rect-helio
           angular-separation rel-posn-angle refraction-adj
           constellation apparent-posn
-          nutation
-          hrz-from-equ hrz-from-equ-sidereal-time equ-from-ecl ecl-from-equ rect-from-helio 
+          nutation equ-prec equ-prec2 ecl-prec
+         hrz-from-equ hrz-from-equ-sidereal-time equ-from-ecl ecl-from-equ rect-from-helio 
           ecl-from-rect equ-from-gal equ2000-from-gal gal-from-equ gal-from-equ2000
           ell-comet-mag par-comet-mag
           range-hours range-degrees range-degrees180
@@ -89,7 +89,7 @@
             ephem-refraction ephem-transform ephem-constellation 
             ephem-aberration ephem-apparent ephem-comet ephem-dynamical
             ephem-nutation ephem-elliptic ephem-heliocentric ephem-hyperbolic
-            ephem-parabolic)
+            ephem-parabolic ephem-precession)
 
     (include "ephem-include.scm")
 ;;; }}}
