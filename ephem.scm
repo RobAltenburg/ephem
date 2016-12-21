@@ -35,7 +35,7 @@
           par-body-equ-coords par-body-earth-dist  par-body-solar-dist par-body-phase-angle 
           par-body-elong par-body-rst par-body-rst-horizon par-body-next-rst-horizon 
           par-body-next-rst-horizon-future  
-          heliocentric-time-diff 
+          heliocentric-time-diff refraction-adj 
           equ-aberration ecl-aberration dynamical-time-diff jde
           earth-helio-coords earth-solar-dist earth-rect-helio earth-centre-dist
           mercury-sdiam mercury-rst mercury-helio-coords mercury-equ-coords
@@ -89,7 +89,7 @@
             ephem-refraction ephem-transform ephem-constellation 
             ephem-aberration ephem-apparent ephem-comet ephem-dynamical
             ephem-nutation ephem-elliptic ephem-heliocentric ephem-hyperbolic
-            ephem-parabolic ephem-precession ephem-proper-motion)
+            ephem-parabolic ephem-precession ephem-proper-motion ephem-atmospheric-refraction)
 
     (include "ephem-include.scm")
 ;;; }}}
