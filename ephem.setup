@@ -20,6 +20,9 @@
 (setup-shared-extension-module 'ephem-precession (extension-version "0.0.1")
   #:compile-options '(-optimize-level 3 -lnova))
 
+(setup-shared-extension-module 'ephem-proper-motion (extension-version "0.0.1")
+  #:compile-options '(-optimize-level 3 -lnova))
+
 (setup-shared-extension-module 'ephem-apparent (extension-version "0.0.1")
   #:compile-options '(-optimize-level 3 -lnova))
 

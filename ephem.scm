@@ -89,7 +89,7 @@
             ephem-refraction ephem-transform ephem-constellation 
             ephem-aberration ephem-apparent ephem-comet ephem-dynamical
             ephem-nutation ephem-elliptic ephem-heliocentric ephem-hyperbolic
-            ephem-parabolic ephem-precession)
+            ephem-parabolic ephem-precession ephem-proper-motion)
 
     (include "ephem-include.scm")
 ;;; }}}
