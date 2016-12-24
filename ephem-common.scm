@@ -16,6 +16,7 @@
          make-ecl ecl-lng ecl-lat
          make-equ equ-ra equ-dec
          make-hrz hrz-az hrz-alt
+         make-hms hms-hours hms-minutes hms-seconds
          make-gal gal-l gal-b
          make-ell ell-a ell-e ell-i ell-w ell-omega ell-n ell-jd
          make-hyp hyp-q hyp-e hyp-i hyp-w hyp-omega hyp-jd
@@ -88,6 +89,13 @@
         hrz?
         (az hrz-az (setter hrz-az)) 
         (alt hrz-alt (setter hrz-alt))) 
+    
+    (define-record-type hms
+        (make-hms hours minutes seconds)
+        hms?
+        (hours hms-hours (setter hms-hours))
+        (minutes hms-minutes (setter hms-minutes))
+        (seconds hms-seconds (setter hms-seconds)))
 
     (define-record-type gal 
         (make-gal l b)

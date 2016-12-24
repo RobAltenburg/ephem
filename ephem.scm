@@ -10,7 +10,7 @@
 (module ephem
 
         ;;; functions {{{2
-        (gmst gast lmst last
+        (gmst gast lmst last get-version rad->deg deg->rad hms->deg deg->hms
           lunar-phase lunar-disk lunar-sdiam lunar-earth-dist lunar-bright-limb 
           lunar-long-asc-node lunar-long-perigee lunar-equ-coords lunar-rst
           lunar-geo-posn lunar-equ-coords-prec lunar-ecl-coords
@@ -18,7 +18,7 @@
           solar-ecl-coords solar-geo-coords solar-sdiam
           get-date object-rst object-next-rst object-next-rst-horizon
           body-equ-pointer body-rst-horizon body-next-rst-horizon  
-          body-next-rst-horizon-future
+          body-next-rst-horizon-future vsop87->fk5
           solve-kepler ell-mean-anomaly ell-true-anomaly ell-radius-vector
           ell-smajor-diam ell-sminor-diam ell-mean-motion ell-geo-rect-posn
           ell-helio-rect-posn ell-orbit-len ell-orbit-vel ell-orbit-pvel 
@@ -73,6 +73,7 @@
           make-ecl ecl-lng ecl-lat
           make-equ equ-ra equ-dec
           make-hrz hrz-az hrz-alt
+          make-hms hms-hours hms-minutes hms-seconds
           make-ell ell-a ell-e ell-i ell-w ell-omega ell-n ell-jd
           make-hyp hyp-q hyp-e hyp-i hyp-w hyp-omega hyp-jd
           make-par par-q par-i par-w par-omega par-jd
@@ -89,7 +90,8 @@
             ephem-refraction ephem-transform ephem-constellation 
             ephem-aberration ephem-apparent ephem-comet ephem-dynamical
             ephem-nutation ephem-elliptic ephem-heliocentric ephem-hyperbolic
-            ephem-parabolic ephem-precession ephem-proper-motion ephem-atmospheric-refraction)
+            ephem-parabolic ephem-precession ephem-proper-motion ephem-atmospheric-refraction
+            ephem-utility)
 
     (include "ephem-include.scm")
 ;;; }}}

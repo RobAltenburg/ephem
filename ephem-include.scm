@@ -3,6 +3,7 @@
     (define-external (apply_make_ell (scheme-object obj)) scheme-object (apply make-ell obj))
     (define-external (apply_make_equ (scheme-object obj)) scheme-object (apply make-equ obj))
     (define-external (apply_make_gal (scheme-object obj)) scheme-object (apply make-gal obj))
+    (define-external (apply_make_hms (scheme-object obj)) scheme-object (apply make-hms obj))
     (define-external (apply_make_helio (scheme-object obj)) scheme-object (apply make-helio obj))
     (define-external (apply_make_hrz (scheme-object obj)) scheme-object (apply make-hrz obj))
     (define-external (apply_make_nutation (scheme-object obj)) scheme-object (apply make-nutation obj))
@@ -41,5 +42,7 @@
     (foreign-declare "#include <libnova/solar.h>")
     (foreign-declare "#include <libnova/transform.h>")
     (foreign-declare "#include <libnova/uranus.h>")
+    (foreign-declare "#include <libnova/utility.h>")
     (foreign-declare "#include <libnova/venus.h>")
+    (foreign-declare "#include <libnova/vsop87.h>")
 ;;; }}} 
