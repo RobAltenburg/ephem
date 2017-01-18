@@ -1,4 +1,4 @@
-(use numbers srfi-19 ephem fmt)
+(use numbers srfi-19 fmt ephem)
 
 ; mayhill lnlat -105.5287 32.903
 ; harrisburg lnlat -76.8867 40.2732 
@@ -9,6 +9,12 @@
                              (make-date 0 0 30 7 13 12 2016 (* 3600 0)  #f))))
 (define my-ecl (make-ecl -76.8867 40.2732))
 (define my-equ (make-equ 20.97 -23.18))
+(define my-equs (make-equs))
+
+(equs-ra-set! my-equs 22.12)
+
+(equs-ra my-equs)
+
 ;(define rst (lunar-rst dd my-ecl))
 (define rst (solar-rst-horizon dd my-ecl 1))
 (define rstb (body-rst-horizon dd my-ecl 'moon 0)) 

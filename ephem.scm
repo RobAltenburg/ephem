@@ -78,7 +78,8 @@
           make-hyp hyp-q hyp-e hyp-i hyp-w hyp-omega hyp-jd
           make-par par-q par-i par-w par-omega par-jd
           make-nutation nutation-longitude nutation-obliquity nutation-ecliptic
-          is-above-horizon? dms->deg hms->hr)
+          is-above-horizon? dms->deg hms->hr
+          make-equs free-equs equs-ra equs-dec equs-ra-set! equs-dec-set!)
         ;;;}}}
           
     (import chicken scheme foreign)

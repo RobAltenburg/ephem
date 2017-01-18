@@ -21,9 +21,10 @@
          make-ell ell-a ell-e ell-i ell-w ell-omega ell-n ell-jd
          make-hyp hyp-q hyp-e hyp-i hyp-w hyp-omega hyp-jd
          make-par par-q par-i par-w par-omega par-jd
-         make-nutation nutation-longitude nutation-obliquity nutation-ecliptic)
+         make-nutation nutation-longitude nutation-obliquity nutation-ecliptic
+         make-equs free-equs equs-ra equs-dec equs-ra-set! equs-dec-set!)
 
-    (import chicken scheme foreign)
+    (import chicken scheme foreign foreigners)
     (include "ephem-include.scm")
 
 ;;; }}}
@@ -83,6 +84,12 @@
         equ?
         (ra equ-ra (setter equ-ra)) 
         (dec equ-dec (setter equ-dec))) 
+
+    (define-foreign-record-type (equs "struct ln_equ_posn")
+                                (constructor: make-equs)
+                                (destructor: free-equs)
+                                (double ra equs-ra equs-ra-set!)
+                                (double dec equs-dec equs-dec-set!))
 
     (define-record-type hrz 
         (make-hrz az alt)
