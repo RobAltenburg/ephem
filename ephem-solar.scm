@@ -13,103 +13,52 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
-    (include "ephem-include.scm")
-
+    (foreign-declare "#include <libnova/solar.h>")
+   
 ;;; }}}
 
 ;;; Solar {{{1
-    ;; returns rst type
-    (define (solar-rst-horizon jd ecl horizon)
-        ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat) (double horizon))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_lnlat_posn in = {.lat = lat, .lng = lng};
-                       struct ln_rst_time *out;
-                       out = malloc(sizeof(struct ln_rst_time));
-                       ln_get_solar_rst_horizon(jd, &in, horizon, out);
-                       a = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&a, 3, 
-                                        C_flonum(&a, out->rise),
-                                        C_flonum(&a, out->set),
-                                        C_flonum(&a, out->transit));
-                       free(out);
-                       C_return(apply_make_rst(lst));")
-                       jd (ecl-lng ecl) (ecl-lat ecl) horizon)) ;)
+  ;; returns rst type
+        (define (solar-rst-horizon jd ecl-in horizon)
+          (let ((rst (make-rst)))
+            ((foreign-lambda void "ln_get_solar_rst_horizon" double nonnull-c-pointer double nonnull-c-pointer)
+             jd ecl-in horizon rst)
+            rst))
 
-    ;; returns rst tyoe
-    (define (solar-rst jd ecl)
-        ((foreign-safe-lambda* scheme-object ((double jd) (double lng) (double lat))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_lnlat_posn in = {.lat = lat, .lng = lng};
-                       struct ln_rst_time *out;
-                       out = malloc(sizeof(struct ln_rst_time));
-                       ln_get_solar_rst(jd, &in, out);
-                       a = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&a, 3, 
-                                        C_flonum(&a, out->rise),
-                                        C_flonum(&a, out->set),
-                                        C_flonum(&a, out->transit));
-                       free(out);
-                       C_return(apply_make_rst(lst));")
-                       jd (ecl-lng ecl) (ecl-lat ecl)))
+  ;; returns rst type
+        (define (solar-rst jd ecl-in)
+          (let ((rst (make-rst)))
+            ((foreign-lambda void "ln_get_solar_rst" double nonnull-c-pointer nonnull-c-pointer)
+             jd ecl-in rst)
+            rst))
 
-    ;; returns helio type 
-    (define (solar-geom-coords jd)
-        ((foreign-safe-lambda* scheme-object ((double jd))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_helio_posn *r;
-                       r = malloc(sizeof(struct ln_helio_posn));
-                       ln_get_solar_geom_coords(jd, r);
-                       a = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&a, 3, 
-                                        C_flonum(&a, r->L),
-                                        C_flonum(&a, r->B),
-                                        C_flonum(&a, r->R));
-                       free(r);
-                       C_return(apply_make_helio(lst));") jd))
+  ;; returns helio type
+        (define (solar-geom-coords jd)
+          (let ((helio (make-helio)))
+            ((foreign-lambda void "ln_get_solar_geom_coords" double nonnull-c-pointer)
+             jd helio)
+            helio))
 
-                       
-    ;; returns equ type
-    (define (solar-equ-coords jd)
-        ((foreign-safe-lambda* scheme-object ((double jd))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_equ_posn *r;
-                       r = malloc(sizeof(struct ln_equ_posn));
-                       ln_get_solar_equ_coords(jd, r);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, r->ra),
-                                        C_flonum(&a, r->dec));
-                       free(r);
-                       C_return(apply_make_equ(lst));") jd))
+  ;; returns equ type
+        (define (solar-equ-coords jd)
+          (let ((equ (make-equ)))
+            ((foreign-lambda void "ln_get_solar_equ_coords" double nonnull-c-pointer)
+             jd equ)
+            equ))
 
-    ;; returns ecl type
-    (define (solar-ecl-coords jd)
-        ((foreign-safe-lambda* scheme-object ((double jd))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_lnlat_posn *r;
-                       r = malloc(sizeof(struct ln_equ_posn));
-                       ln_get_solar_ecl_coords(jd, r);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, r->lng),
-                                        C_flonum(&a, r->lat));
-                       free(r);
-                       C_return(apply_make_ecl(lst));") jd))
+  ;; returns ecl type
+        (define (solar-ecl-coords jd)
+          (let ((ecl (make-ecl)))
+            ((foreign-lambda void "ln_get_solar_ecl_coords" double nonnull-c-pointer)
+             jd ecl)
+            ecl))
 
-    ;; returns rect tyoe
-    (define (solar-geo-coords jd)
-        ((foreign-safe-lambda* scheme-object ((double jd))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_rect_posn *r;
-                       r = malloc(sizeof(struct ln_rect_posn));
-                       ln_get_solar_geo_coords(jd, r);
-                       a = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&a, 3, 
-                                        C_flonum(&a, r->X),
-                                        C_flonum(&a, r->Y),
-                                        C_flonum(&a, r->Z));
-                       free(r);
-                       C_return(apply_make_rect(lst));") jd))
+  ;; returns rect type
+        (define (solar-geo-coords jd)
+          (let ((rect (make-rect)))
+            ((foreign-lambda void "ln_get_solar_geo_coords" double nonnull-c-pointer)
+             jd rect)
+            rect))
 
     (define solar-sdiam 
       (foreign-lambda double "ln_get_solar_sdiam" double))
@@ -119,5 +68,8 @@
 
 
 )              
+
+
+
 
 

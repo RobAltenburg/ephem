@@ -14,7 +14,17 @@
 
         (import chicken scheme foreign)
         (use ephem-common)
-   (include "ephem-include.scm")
+        (foreign-declare "#include <libnova/rise_set.h>
+                         #include <libnova/mercury.h>
+                         #include <libnova/venus.h>
+                         #include <libnova/mars.h>
+                         #include <libnova/jupiter.h>
+                         #include <libnova/saturn.h>
+                         #include <libnova/uranus.h>
+                         #include <libnova/neptune.h>
+                         #include <libnova/pluto.h>
+                         #include <libnova/lunar.h>
+                         #include <libnova/solar.h>")
 
 ;;; }}}
 
