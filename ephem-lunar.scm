@@ -57,34 +57,19 @@
                        C_return(apply_make_rect(lst));")
                        jd precision))
 
-    ;; returns equ type
+ ;; returns equ type
     (define (lunar-equ-coords-prec jd precision)
-        ((foreign-safe-lambda* scheme-object ((double jd) (double precision))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_equ_posn *r;
-                       r = malloc(sizeof(struct ln_rect_posn));
-                       ln_get_lunar_equ_coords_prec(jd, r, precision);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, r->ra),
-                                        C_flonum(&a, r->dec));
-                       free(r);
-                       C_return(apply_make_equ(lst));")
-                       jd precision))
+      (let ((equ (make-equ)))
+        ((foreign-lambda void "ln_get_lunar_equ_coords_prec" double nonnull-c-pointer double)
+         jd equ precision)
+        equ))
 
     ;; returns equ type
     (define (lunar-equ-coords jd)
-        ((foreign-safe-lambda* scheme-object ((double jd))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_equ_posn *r;
-                       r = malloc(sizeof(struct ln_equ_posn));
-                       ln_get_lunar_equ_coords(jd, r);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, r->ra),
-                                        C_flonum(&a, r->dec));
-                       free(r);
-                       C_return(apply_make_equ(lst));") jd))
+      (let ((equ (make-equ)))
+        ((foreign-lambda void "ln_get_lunar_equ_coords" double nonnull-c-pointer)
+         jd equ)
+        equ))
 
     ;; returns ecl type
     (define (lunar-ecl-coords jd precision)

@@ -9,10 +9,8 @@
                              (make-date 0 0 30 7 13 12 2016 (* 3600 0)  #f))))
 (define my-ecl (make-ecl -76.8867 40.2732))
 (define my-equ (make-equ 20.97 -23.18))
-(define my-equs (make-equs))
 
-(equs-ra-set! my-equs 22.12)
-
+(define my-equs (lunar-equ-coords dd))
 (equs-ra my-equs)
 
 ;(define rst (lunar-rst dd my-ecl))

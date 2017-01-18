@@ -66,7 +66,6 @@
           ecl-from-rect equ-from-gal equ2000-from-gal gal-from-equ gal-from-equ2000
           ell-comet-mag par-comet-mag
           range-hours range-degrees range-degrees180
-          make-rst rst-rise rst-set rst-transit rst-circumpolar
           make-rst rst-rise rst-set rst-transit 
           make-rect rect-x rect-y rect-z
           make-helio helio-l helio-b helio-r
@@ -78,8 +77,7 @@
           make-hyp hyp-q hyp-e hyp-i hyp-w hyp-omega hyp-jd
           make-par par-q par-i par-w par-omega par-jd
           make-nutation nutation-longitude nutation-obliquity nutation-ecliptic
-          is-above-horizon? dms->deg hms->hr
-          make-equs free-equs equs-ra equs-dec equs-ra-set! equs-dec-set!)
+          is-above-horizon? dms->deg hms->hr)
         ;;;}}}
           
     (import chicken scheme foreign)
