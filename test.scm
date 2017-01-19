@@ -10,8 +10,8 @@
 (define my-ecl (make-ecl -76.8867 40.2732))
 (define my-equ (make-equ 20.97 -23.18))
 
-(define my-equs (lunar-equ-coords dd))
-(equs-ra my-equs)
+(define my-equ (lunar-equ-coords dd))
+(equ-ra my-equ)
 
 ;(define rst (lunar-rst dd my-ecl))
 (define rst (solar-rst-horizon dd my-ecl 1))

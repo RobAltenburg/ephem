@@ -25,7 +25,7 @@
                      )
 
         (import chicken scheme foreign foreigners)
-        (include "ephem-include.scm")
+        (foreign-declare "#include <libnova/ln_types.h>")
 
         ;;; }}}
 
