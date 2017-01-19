@@ -20,11 +20,7 @@
 
     ;; returns 
     (define (constellation equ-in)
-        ((foreign-lambda* nonnull-c-string ((double ra) (double dec))
-                       "struct ln_equ_posn in = {.ra = ra, .dec = dec};
-                       C_return(ln_get_constellation(&in));")
-                       (equ-ra equ-in)
-                       (equ-dec equ-in)))
+        ((foreign-lambda nonnull-c-string "ln_get_constellation" nonnull-c-pointer) equ-in))
                        
 
 ;; }}}

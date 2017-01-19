@@ -12,46 +12,33 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
-    (include "ephem-include.scm")
-
+    (foreign-declare "#include <libnova/earth.h>")
 ;;; }}}
 
 ;;; earth {{{1
     
     ;; returns helio type
     (define (earth-helio-coords jd)
-        ((foreign-safe-lambda* scheme-object ((double jd))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_helio_posn *r;
-                       r = malloc(sizeof(struct ln_helio_posn));
-                       ln_get_earth_helio_coords(jd, r);
-                       a = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&a, 3, 
-                                        C_flonum(&a, r->L),
-                                        C_flonum(&a, r->B),
-                                        C_flonum(&a, r->R));
-                       free(r);
-                       C_return(apply_make_helio(lst));") jd))
+      (let ((helio (make-helio)))
+        ((foreign-lambda void "ln_get_earth_helio_coords" 
+                         double
+                         nonnull-c-pointer)
+         jd helio)
+        helio))
 
     (define earth-solar-dist
       (foreign-lambda double "ln_get_earth_solar_dist" double))
 
     ;; returns rect type
     (define (earth-rect-helio jd)
-        ((foreign-safe-lambda* scheme-object ((double jd))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_rect_posn *r;
-                       r = malloc(sizeof(struct ln_rect_posn));
-                       ln_get_earth_rect_helio(jd, r);
-                       a = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&a, 3, 
-                                        C_flonum(&a, r->X),
-                                        C_flonum(&a, r->Y),
-                                        C_flonum(&a, r->Z));
-                       free(r);
-                       C_return(apply_make_rect(lst));") jd))
+      (let ((rect (make-rect)))
+            ((foreign-lambda void "ln_get_earth_rect_helio"
+                             double
+                             nonnull-c-pointer)
+             jd rect)
+            rect))
 
-     (define (earth-centre-dist height latitude)
+    (define (earth-centre-dist height latitude)
                ((foreign-safe-lambda* scheme-object ((double height) (double latitude))
                        "C_word vec = C_SCHEME_END_OF_LIST, *a;
                         double p_sin_o, p_cos_o;
@@ -60,7 +47,7 @@
                         vec = C_vector(&a, 2, 
                                         C_flonum(&a, p_sin_o),
                                         C_flonum(&a, p_cos_o));
-                        C_return(apply_make_equ(vec));") height latitude))
+                        C_return(vec);") height latitude))
  ;;; }}}
 
 )              
