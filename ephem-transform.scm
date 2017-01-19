@@ -9,216 +9,153 @@
 ;;; Module Definition {{{1
 (module ephem-transform
         (hrz-from-equ hrz-from-equ-sidereal-time equ-from-ecl ecl-from-equ rect-from-helio 
-         ecl-from-rect equ-from-gal equ2000-from-gal gal-from-equ gal-from-equ2000)
+                      ecl-from-rect equ-from-gal equ2000-from-gal gal-from-equ gal-from-equ2000)
 
-    (import chicken scheme foreign)
-    (use ephem-common)
-    (include "ephem-include.scm")
-;;; }}}
+        (import chicken scheme foreign)
+        (use ephem-common)
+        (foreign-declare "#include <libnova/transform.h>")
+        ;;; }}}
 
-;;; Transform {{{1
+        ;;; Transform {{{1
 
-    ;; returns hrz type
-    ;;void LIBNOVA_EXPORT ln_get_hrz_from_equ(struct ln_equ_posn *object,
-    ;;	struct ln_lnlat_posn *observer, double JD, struct ln_hrz_posn *position);
-    (define (hrz-from-equ equ ecl jd)
-        ((foreign-safe-lambda* scheme-object ((double ra) (double dec) (double lng) (double lat) (double jd))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_lnlat_posn inll = {.lat = lat, .lng =lng};
-                       struct ln_equ_posn inequ = {.ra = ra, .dec =dec};
-                       struct ln_hrz_posn *out;
-                       out = malloc(sizeof(struct ln_hrz_posn));
-                       ln_get_hrz_from_equ(&inequ, &inll, jd, out);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, out->az),
-                                        C_flonum(&a, out->alt));
-                       free(out);
-                       C_return(apply_make_hrz(lst));")
-                       (equ-ra equ) (equ-dec equ)
-                       (ecl-lng ecl) (ecl-lat ecl) jd))
+        ;; returns hrz type
+        ;;void LIBNOVA_EXPORT ln_get_hrz_from_equ(struct ln_equ_posn *object,
+        ;;	struct ln_lnlat_posn *observer, double JD, struct ln_hrz_posn *position);
+        (define (hrz-from-equ equ ecl jd)
+          (let ((hrz (make-hrz)))
+            ((foreign-lambda void "ln_get_hrz_from_equ"
+                             nonnull-c-pointer
+                             nonnull-c-pointer
+                             double
+                             nonnull-c-pointer)
+             equ
+             ecl
+             jd
+             hrz)
+            hrz))
 
-                       
-    ;; returns hrz type
-    ;;void LIBNOVA_EXPORT ln_get_hrz_from_equ_sidereal_time(struct ln_equ_posn *object,
-    ;;    struct ln_lnlat_posn *observer, double sidereal,
-    ;;    struct ln_hrz_posn *position);
-    (define (hrz-from-equ-sidereal-time equ ecl sidereal)
-        ((foreign-safe-lambda* scheme-object ((double ra) (double dec) (double lng) (double lat) (double sidereal))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_lnlat_posn inll = {.lat = lat, .lng =lng};
-                       struct ln_equ_posn inequ = {.ra = ra, .dec =dec};
-                       struct ln_hrz_posn *out;
-                       out = malloc(sizeof(struct ln_hrz_posn));
-                       ln_get_hrz_from_equ_sidereal_time(&inequ, &inll, sidereal, out);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, out->az),
-                                        C_flonum(&a, out->alt));
-                       free(out);
-                       C_return(apply_make_hrz(lst));")
-                       (equ-ra equ) (equ-dec equ)
-                       (ecl-lng ecl) (ecl-lat ecl) sidereal))
+        ;; returns hrz type
+        ;;void LIBNOVA_EXPORT ln_get_hrz_from_equ_sidereal_time(struct ln_equ_posn *object,
+        ;;    struct ln_lnlat_posn *observer, double sidereal,
+        ;;    struct ln_hrz_posn *position);
+        (define (hrz-from-equ-sidereal-time equ ecl sidereal)
+          (let ((hrz (make-hrz)))
+            ((foreign-lambda void "ln_get_hrz_from_sidereal_time"
+                             nonnull-c-pointer
+                             nonnull-c-pointer
+                             double
+                             nonnull-c-pointer)
+             equ
+             ecl
+             sidereal 
+             hrz)
+            hrz))
 
+        ;; returns equ type
+        ;;void LIBNOVA_EXPORT ln_get_equ_from_ecl(struct ln_lnlat_posn *object,
+        ;;	double JD, struct ln_equ_posn *position);
+        (define (equ-from-ecl ecl jd)
+          (let ((equ (make-equ)))
+            ((foreign-lambda void "ln_get_equ_from_ecl"
+                             nonnull-c-pointer
+                             double
+                             nonnull-c-pointer)
+             ecl
+             jd
+             equ)
+            equ))
 
+        ;; returns ecl type 
+        ;;ln_get_ecl_from_equ(struct ln_equ_posn *object, double JD,
+        ;;	struct ln_lnlat_posn *position);
+        (define (ecl-from-equ equ jd)
+          (let ((ecl (make-ecl)))
+            ((foreign-lambda void "ln_get_ecl_from_equ"
+                             nonnull-c-pointer
+                             double
+                             nonnull-c-pointer)
+             equ
+             jd
+             ecl)
+            ecl))
 
-    ;; returns equ type
-    ;;void LIBNOVA_EXPORT ln_get_equ_from_ecl(struct ln_lnlat_posn *object,
-    ;;	double JD, struct ln_equ_posn *position);
-    (define (equ-from-ecl ecl jd)
-        ((foreign-safe-lambda* scheme-object ((double lng) (double lat) (double jd))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_lnlat_posn inll = {.lat = lat, .lng =lng};
-                       struct ln_equ_posn *out;
-                       out = malloc(sizeof(struct ln_equ_posn));
-                       ln_get_equ_from_ecl(&inll, jd, out);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, out->ra),
-                                        C_flonum(&a, out->dec));
-                       free(out);
-                       C_return(apply_make_equ(lst));")
-                       (ecl-lng ecl) (ecl-lat ecl) jd))
-
-
-    ;; returns ecl type 
-    ;;ln_get_ecl_from_equ(struct ln_equ_posn *object, double JD,
-    ;;	struct ln_lnlat_posn *position);
-    (define (ecl-from-equ equ jd)
-        ((foreign-safe-lambda* scheme-object ((double ra) (double dec) (double jd))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_equ_posn in = {.ra = ra, .dec =dec};
-                       struct ln_lnlat_posn *out;
-                       out = malloc(sizeof(struct ln_lnlat_posn));
-                       ln_get_ecl_from_equ(&in, jd, out);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, out->lng),
-                                        C_flonum(&a, out->lat));
-                       free(out);
-                       C_return(apply_make_ecl(lst));")
-                       (equ-ra equ) (equ-dec equ) jd))
+        ;; returns rect
+        ;;void LIBNOVA_EXPORT ln_get_rect_from_helio(struct ln_helio_posn *object,
+        ;;	struct ln_rect_posn *position);
+        (define (rect-from-helio helio)
+          (let ((rect (make-rect)))
+            ((foreign-lambda void "ln_get_rect_from_helio"
+                             nonnull-c-pointer
+                             nonnull-c-pointer)
+             helio
+             rect)
+            rect))
 
 
-                       
-    ;; returns #(x y z) 
-    ;;void LIBNOVA_EXPORT ln_get_rect_from_helio(struct ln_helio_posn *object,
-    ;;	struct ln_rect_posn *position);
-    (define (rect-from-helio helio)
-        ((foreign-safe-lambda* scheme-object ((double L) (double B) (double R))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_helio_posn in = {.L = L, .B = B, .R = R};
-                       struct ln_rect_posn *out;
-                       out = malloc(sizeof(struct ln_rect_posn));
-                       ln_get_rect_from_helio(&in, out);
-                       a = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&a, 3, 
-                                        C_flonum(&a, out->X),
-                                        C_flonum(&a, out->Y),
-                                        C_flonum(&a, out->Z));
-                       free(out);
-                       C_return(apply_make_rect(lst));")
-                       (helio-l helio)
-                       (helio-b helio)
-                       (helio-r helio)))
+        ;; returns ecl type
+        ;;void LIBNOVA_EXPORT ln_get_ecl_from_rect(struct ln_rect_posn *rect,
+        ;;	struct ln_lnlat_posn *posn);
+        (define (ecl-from-rect rect)
+          (let ((ecl (make-ecl)))
+            ((foreign-lambda void "ln_get_ecl_from_rect"
+                             nonnull-c-pointer
+                             nonnull-c-pointer)
+             rect
+             ecl)
+            ecl))
 
 
-    ;; returns ecl type
-    ;;void LIBNOVA_EXPORT ln_get_ecl_from_rect(struct ln_rect_posn *rect,
-    ;;	struct ln_lnlat_posn *posn);
-    (define (ecl-from-rect rect)
-        ((foreign-safe-lambda* scheme-object ((double X) (double Y) (double Z))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_rect_posn in = {.X = X, .Y = Y, .Z = Z};
-                       struct ln_lnlat_posn *out;
-                       out = malloc(sizeof(struct ln_lnlat_posn));
-                       ln_get_ecl_from_rect(&in, out);
-                       a = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, out->lng),
-                                        C_flonum(&a, out->lat));
-                       free(out);
-                       C_return(apply_make_ecl(lst));")
-                       (rect-x rect) (rect-y rect) (rect-z rect)))
+        ;; returns equ
+        ;;void LIBNOVA_EXPORT ln_get_equ_from_gal(struct ln_gal_posn *gal,
+        ;;	struct ln_equ_posn *equ);
+        (define (equ-from-gal gal)
+          (let ((equ (make-equ)))
+            ((foreign-lambda void "ln_get_equ_from_gal" 
+                             nonnull-c-pointer
+                             nonnull-c-pointer)
+             gal
+             equ)
+            equ))
 
-  
-    ;; returns #(ra dec) 
-    ;;void LIBNOVA_EXPORT ln_get_equ_from_gal(struct ln_gal_posn *gal,
-    ;;	struct ln_equ_posn *equ);
-    (define (equ-from-gal gal)
-        ((foreign-safe-lambda* scheme-object ((double l) (double b))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_gal_posn in = {.l = l, .b = b};
-                       struct ln_equ_posn *out;
-                       out = malloc(sizeof(struct ln_equ_posn));
-                       ln_get_equ_from_gal(&in, out);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, out->ra),
-                                        C_flonum(&a, out->dec));
-                       free(out);
-                       C_return(apply_make_equ(lst));")
-                       (gal-l gal) (gal-b gal)))
+        ;; returns equ
+        ;;void LIBNOVA_EXPORT ln_get_equ_from_gal(struct ln_gal_posn *gal,
+        ;;	struct ln_equ_posn *equ);
+        (define (equ2000-from-gal gal)
+          (let ((equ (make-equ)))
+            ((foreign-lambda void "ln_get_equ2000_from_gal" 
+                             nonnull-c-pointer
+                             nonnull-c-pointer)
+             gal
+             equ)
+            equ))
 
 
-    ;; returns equ
-    ;;void LIBNOVA_EXPORT ln_get_equ2000_from_gal(struct ln_gal_posn *gal,
-    ;;	struct ln_equ_posn *equ);
-    (define (equ2000-from-gal gal)
-        ((foreign-safe-lambda* scheme-object ((double l) (double b))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_gal_posn in = {.l = l, .b = b};
-                       struct ln_equ_posn *out;
-                       out = malloc(sizeof(struct ln_equ_posn));
-                       ln_get_equ2000_from_gal(&in, out);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, out->ra),
-                                        C_flonum(&a, out->dec));
-                       free(out);
-                       C_return(apply_make_equ(lst));")
-                       (gal-l gal) (gal-b gal)))
+        ;; returns gal
+        ;;void LIBNOVA_EXPORT ln_get_gal_from_equ(struct ln_equ_posn *equ,
+        ;;	struct ln_gal_posn *gal);
+        (define (gal-from-equ equ)
+          (let ((gal (make-gal)))
+            ((foreign-lambda void "ln_get_gal_from_equ" 
+                             nonnull-c-pointer
+                             nonnull-c-pointer)
+             equ 
+             gal)
+            gal))
 
+        ;; returns gal
+        ;;void LIBNOVA_EXPORT ln_get_gal_from_equ2000(struct ln_equ_posn *equ,
+        ;;	struct ln_gal_posn *gal);
+        (define (gal-from-equ2000 equ)
+          (let ((gal (make-gal)))
+            ((foreign-lambda void "ln_get_gal_from_equ2000" 
+                             nonnull-c-pointer
+                             nonnull-c-pointer)
+             equ 
+             gal)
+            gal))
 
-    ;; returns gal
-    ;;void LIBNOVA_EXPORT ln_get_gal_from_equ(struct ln_equ_posn *equ,
-    ;;	struct ln_gal_posn *gal);
-    (define (gal-from-equ equ)
-        ((foreign-safe-lambda* scheme-object ((double ra) (double dec))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_equ_posn in = {.ra = ra, .dec = dec};
-                       struct ln_gal_posn *out;
-                       out = malloc(sizeof(struct ln_gal_posn));
-                       ln_get_gal_from_equ(&in, out);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, out->l),
-                                        C_flonum(&a, out->b));
-                       free(out);
-                       C_return(apply_make_gal(lst));")
-                       (equ-ra equ) (equ-dec equ)))
-   
-    
-    ;; returns gal
-    ;;void LIBNOVA_EXPORT ln_get_gal_from_equ2000(struct ln_equ_posn *equ,
-    ;;	struct ln_gal_posn *gal);
-    (define (gal-from-equ2000 equ)
-        ((foreign-safe-lambda* scheme-object ((double ra) (double dec))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *a;
-                       struct ln_equ_posn in = {.ra = ra, .dec = dec};
-                       struct ln_gal_posn *out;
-                       out = malloc(sizeof(struct ln_gal_posn));
-                       ln_get_gal_from_equ2000(&in, out);
-                       a = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&a, 2, 
-                                        C_flonum(&a, out->l),
-                                        C_flonum(&a, out->b));
-                       free(out);
-                       C_return(apply_make_gal(lst));")
-                       (equ-ra equ) (equ-dec equ)))
- 
-;}}}
+        ;}}}
 
-)
+        )
 
 
