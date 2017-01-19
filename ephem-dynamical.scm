@@ -10,20 +10,19 @@
 (module ephem-dynamical
         (dynamical-time-diff jde)
 
-    (import chicken scheme foreign)
-    (use ephem-common)
-    (include "ephem-include.scm")
+        (import chicken scheme foreign)
+        (use ephem-common)
+        (foreign-declare "#include <libnova/dynamical_time.h>")
+        ;;; }}}
 
-;;; }}}
-
-;;; Dynamical Time {{{1
-    (define (dynamical-time-diff jd)
-        (foreign-lambda double "ln_get_dynamical_time_diff" double) jd)
-    (define (jde jd)
-        (foreign-lambda double "ln_get_jde" double) jd)
-;;; }}}
+        ;;; Dynamical Time {{{1
+        (define (dynamical-time-diff jd)
+          (foreign-lambda double "ln_get_dynamical_time_diff" double) jd)
+        (define (jde jd)
+          (foreign-lambda double "ln_get_jde" double) jd)
+        ;;; }}}
 
 
-)              
+        )              
 
 

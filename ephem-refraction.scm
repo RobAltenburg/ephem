@@ -12,8 +12,7 @@
 
     (import chicken scheme foreign)
     (use ephem-common)
-    (include "ephem-include.scm")
-
+    (foreign-declare "#include <libnova/refraction.h>")
 ;;; }}}
 
 ;;; Atmospheric Refraction {{{1

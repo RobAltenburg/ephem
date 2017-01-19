@@ -128,8 +128,6 @@
             rst))
 
 
-        (define hyp-last-perihelion (foreign-lambda double "ln_get_hyp_last_perihelion" double double double))
-
         ;;; }}}
 
         )

@@ -92,7 +92,6 @@
             ephem-parabolic ephem-precession ephem-proper-motion ephem-atmospheric-refraction
             ephem-utility)
 
-    (include "ephem-include.scm")
 ;;; }}}
 
 ;;; Extras (non-libnova) {{{1

@@ -10,20 +10,17 @@
 (module ephem-heliocentric
         (heliocentric-time-diff)
 
-    (import chicken scheme foreign)
-    (use ephem-common)
-    (include "ephem-include.scm")
+        (import chicken scheme foreign)
+        (use ephem-common)
+        (foreign-declare "#include <libnova/heliocentric_time.h>")
 
-;;; }}}
+; }}}
 
 ;;; Heliocentric {{{1
 
-    (define (heliocentric-time-diff jd equ-in)
-        ((foreign-lambda* double ((double jd) (double ra) (double dec))
-                       "struct ln_equ_posn in_object = {.ra = ra, .dec = dec};
-                       C_return(ln_get_heliocentric_time_diff(jd, &in_object));")
-                       jd
-                       (equ-ra equ-in) (equ-dec equ-in)))
+    ;; takes jd equ-in
+    (define heliocentric-time-diff
+      (foreign-lambda double "ln_get_heliocentric_time_diff" double nonnull-c-pointer))
 
 ;;; }}}
 
