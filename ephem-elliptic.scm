@@ -17,345 +17,139 @@
                       ell-body-rst-horizon ell-body-next-rst-horizon 
                       ell-body-next-rst-horizon-future ell-last-perihelion)
 
-    (import chicken scheme foreign)
-    (use ephem-common)
-    (include "ephem-include.scm")
+        (import chicken scheme foreign)
+        (use ephem-common)
+        (foreign-declare "#include <libnova/elliptic_motion.h>")
+        ;;; }}}
 
-;;; }}}
+        ;;; elliptic {{{1
+        (define solve-kepler (foreign-lambda double "ln_solve_kepler" double double))
+        (define ell-mean-anomaly (foreign-lambda double "ln_get_ell_mean_anomaly" double double))
+        (define ell-true-anomaly (foreign-lambda double "ln_get_ell_true_anomaly" double double))
+        (define ell-radius-vector (foreign-lambda double "ln_get_ell_radius_vector" double double double))
+        (define ell-smajor-diam (foreign-lambda double "ln_get_ell_smajor_diam" double double))
+        (define ell-sminor-diam (foreign-lambda double "ln_get_ell_sminor_diam" double double))
+        (define ell-mean-motion (foreign-lambda double "ln_get_ell_mean_motion" double))
 
-;;; elliptic {{{1
-    (define solve-kepler (foreign-lambda double "ln_solve_kepler" double double))
-    (define ell-mean-anomaly (foreign-lambda double "ln_get_ell_mean_anomaly" double double))
-    (define ell-true-anomaly (foreign-lambda double "ln_get_ell_true_anomaly" double double))
-    (define ell-radius-vector (foreign-lambda double "ln_get_ell_radius_vector" double double double))
-    (define ell-smajor-diam (foreign-lambda double "ln_get_ell_smajor_diam" double double))
-    (define ell-sminor-diam (foreign-lambda double "ln_get_ell_sminor_diam" double double))
-    (define ell-mean-motion (foreign-lambda double "ln_get_ell_mean_motion" double))
-    
-    ;; returns rect type 
-    (define (ell-geo-rect-posn ell-in jdin)
-        ((foreign-safe-lambda* scheme-object ((double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde) (double jdin))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *al;
-                       struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       struct ln_rect_posn *out;
-                       out = malloc(sizeof(struct ln_rect_posn));
-                       ln_get_ell_geo_rect_posn(&in, jdin, out);
-                       al = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&al, 3, 
-                                        C_flonum(&al, out->X),
-                                        C_flonum(&al, out->Y),
-                                        C_flonum(&al, out->Z));
-                       free(out);
-                       C_return(apply_make_rect(lst));")
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)
-                       jdin))
- 
-    ;; returns rect type 
-    (define (ell-helio-rect-posn ell-in jdin)
-        ((foreign-safe-lambda* scheme-object ((double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde) (double jdin))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *al;
-                       struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       struct ln_rect_posn *out;
-                       out = malloc(sizeof(struct ln_rect_posn));
-                       ln_get_ell_helio_rect_posn(&in, jdin, out);
-                       al = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&al, 3, 
-                                        C_flonum(&al, out->X),
-                                        C_flonum(&al, out->Y),
-                                        C_flonum(&al, out->Z));
-                       free(out);
-                       C_return(apply_make_rect(lst));")
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)
-                       jdin))
+        ;; returns rect type 
+        (define (ell-geo-rect-posn ell-in jd)
+          (let ((rect (make-rect)))
+            ((foreign-lambda void "ln_get_ell_geo_rect_posn"
+                             nonnull-c-pointer
+                             double
+                             nonnull-c-pointer)
+             ell-in
+             jd
+             rect)
+            rect))
 
-    (define (ell-orbit-len ell-in) 
-        ((foreign-safe-lambda* double ((double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jd))
-                       "struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jd};
-                       C_return(ln_get_ell_orbit_len(&in));")
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)))
+        ;; returns rect type 
+        (define (ell-helio-rect-posn ell-in jd)
+          (let ((rect (make-rect)))
+            ((foreign-lambda void "ln_get_ell_helio_rect_posn"
+                             nonnull-c-pointer
+                             double 
+                             nonnull-c-pointer)
+             ell-in
+             jd
+             rect)
+            rect))
 
-     (define (ell-orbit-vel jdin ell-in) 
-        ((foreign-safe-lambda* double ((double jdin) (double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde))
-                       "struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       C_return(ln_get_ell_orbit_vel(jdin, &in));")
-                       jdin
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)))
+        ;takes ell-in
+        (define ell-orbit-len
+          (foreign-lambda double "ln_get_ell_orbit_len" nonnull-c-pointer))
 
-      (define (ell-orbit-pvel ell-in) 
-        ((foreign-safe-lambda* double ((double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde))
-                       "struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       C_return(ln_get_ell_orbit_pvel(&in));")
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)))
+        ;takes jd ell-in
+        (define ell-orbit-vel
+          (foreign-lambda double "ln_get_ell_orbit_vel" double nonnull-c-pointer))
 
-      (define (ell-orbit-avel ell-in) 
-        ((foreign-safe-lambda* double ((double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde))
-                       "struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       C_return(ln_get_ell_orbit_avel(&in));")
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)))
+        ;takes ell-in
+        (define ell-orbit-pvel
+          (foreign-lambda double "ln_get_ell_orbit_pvel" nonnull-c-pointer))
 
-     (define (ell-body-phase-angle jdin ell-in) 
-        ((foreign-safe-lambda* double ((double jdin) (double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde))
-                       "struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       C_return(ln_get_ell_body_phase_angle(jdin, &in));")
-                       jdin
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)))
+        ;takes ell-in
+        (define ell-orbit-avel
+          (foreign-lambda double "ln_get_ell_orbit_avel" nonnull-c-pointer))
 
-     (define (ell-body-elong jdin ell-in) 
-        ((foreign-safe-lambda* double ((double jdin) (double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde))
-                       "struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       C_return(ln_get_ell_body_elong(jdin, &in));")
-                       jdin
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)))
+        ;takes jd ell-in
+        (define ell-body-phase-angle
+          (foreign-lambda double "ln_get_ell_body_phase_angle" double nonnull-c-pointer))
 
-      (define (ell-body-solar-dist jdin ell-in) 
-        ((foreign-safe-lambda* double ((double jdin) (double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde))
-                       "struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       C_return(ln_get_ell_body_solar_dist(jdin, &in));")
-                       jdin
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)))
+        ;takes jd ell-in
+        (define ell-body-elong
+          (foreign-lambda double "ln_get_ell_body_elong" double nonnull-c-pointer))
 
-      (define (ell-body-earth-dist jdin ell-in) 
-        ((foreign-safe-lambda* double ((double jdin) (double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde))
-                       "struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       C_return(ln_get_ell_body_earth_dist(jdin, &in));")
-                       jdin
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)))
+        ;takes jd ell-in
+        (define ell-body-solar-dist
+          (foreign-lambda double "ln_get_ell_body_solar_dist" double nonnull-c-pointer))
 
-    ;; returns equ type 
-    (define (ell-body-equ-coords jdin ell-in)
-        ((foreign-safe-lambda* scheme-object ((double jdin) (double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *al;
-                       struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       struct ln_equ_posn *out;
-                       out = malloc(sizeof(struct ln_equ_posn));
-                       ln_get_ell_body_equ_coords(jdin, &in, out);
-                       al = C_alloc(C_SIZEOF_LIST(2) + C_SIZEOF_FLONUM * 2);
-                       lst = C_list(&al, 3, 
-                                        C_flonum(&al, out->ra),
-                                        C_flonum(&al, out->dec));
-                       free(out);
-                       C_return(apply_make_equ(lst));")
-                       jdin
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)))
+        ;takes jd ell-in
+        (define ell-body-earth-dist
+          (foreign-lambda double "ln_get_ell_body_earth_dist" double nonnull-c-pointer))
 
-    ;; returns rst type 
-    (define (ell-body-rst jdin ecl-in ell-in)
-        ((foreign-safe-lambda* scheme-object ((double jdin) (double lng) (double lat ) 
-                                              (double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *al;
-                       struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       struct ln_lnlat_posn llin = {.lng = lng, .lat = lat};
-                       struct ln_rst_time *out;
-                       out = malloc(sizeof(struct ln_rst_time));
-                       ln_get_ell_body_rst(jdin, &llin, &in, out);
-                       al = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&al, 3, 
-                                        C_flonum(&al, out->rise),
-                                        C_flonum(&al, out->set),
-                                        C_flonum(&al, out->transit));
-                       free(out);
-                       C_return(apply_make_equ(lst));")
-                       jdin
-                       (ecl-lng ecl-in)
-                       (ecl-lat ecl-in)
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)))
- 
-     ;; returns rst type 
-    (define (ell-body-rst-horizon jdin ecl-in ell-in horizon)
-        ((foreign-safe-lambda* scheme-object ((double jdin) (double lng) (double lat ) 
-                                              (double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde)
-                                              (double horizon))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *al;
-                       struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       struct ln_lnlat_posn llin = {.lng = lng, .lat = lat};
-                       struct ln_rst_time *out;
-                       out = malloc(sizeof(struct ln_rst_time));
-                       ln_get_ell_body_rst_horizon(jdin, &llin, &in, horizon, out);
-                       al = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&al, 3, 
-                                        C_flonum(&al, out->rise),
-                                        C_flonum(&al, out->set),
-                                        C_flonum(&al, out->transit));
-                       free(out);
-                       C_return(apply_make_equ(lst));")
-                       jdin
-                       (ecl-lng ecl-in)
-                       (ecl-lat ecl-in)
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)
-                       horizon))
+        ;; returns equ type 
+        (define (ell-body-equ-coords jd ell-in)
+          (let ((equ (make-equ)))
+            ((foreign-lambda void "ln_get_ell_body_equ_coords"
+                             double
+                             nonnull-c-pointer
+                             nonnull-c-pointer)
+             jd ell-in equ)
+            equ))
 
-    ;; returns rst type 
-    (define (ell-body-next-rst-horizon jdin ecl-in ell-in horizon)
-        ((foreign-safe-lambda* scheme-object ((double jdin) (double lng) (double lat ) 
-                                              (double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde)
-                                              (double horizon))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *al;
-                       struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       struct ln_lnlat_posn llin = {.lng = lng, .lat = lat};
-                       struct ln_rst_time *out;
-                       out = malloc(sizeof(struct ln_rst_time));
-                       ln_get_ell_body_next_rst_horizon(jdin, &llin, &in, horizon, out);
-                       al = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&al, 3, 
-                                        C_flonum(&al, out->rise),
-                                        C_flonum(&al, out->set),
-                                        C_flonum(&al, out->transit));
-                       free(out);
-                       C_return(apply_make_equ(lst));")
-                       jdin
-                       (ecl-lng ecl-in)
-                       (ecl-lat ecl-in)
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)
-                       horizon))
-     ;; returns rst type 
-    (define (ell-body-next-rst-horizon-future jdin ecl-in ell-in horizon daylimit)
-        ((foreign-safe-lambda* scheme-object ((double jdin) (double lng) (double lat ) 
-                                              (double a) (double e) (double i) (double w)
-                                              (double omega) (double n) (double jde)
-                                              (double horizon) (double daylimit))
-                       "C_word lst = C_SCHEME_END_OF_LIST, *al;
-                       struct ln_ell_orbit in = {.a = a, .e = e, .i = i, .w = w,
-                                               .omega = omega, .n = n, .JD = jde};
-                       struct ln_lnlat_posn llin = {.lng = lng, .lat = lat};
-                       struct ln_rst_time *out;
-                       out = malloc(sizeof(struct ln_rst_time));
-                       ln_get_ell_body_next_rst_horizon_future(jdin, &llin, &in, horizon, daylimit, out);
-                       al = C_alloc(C_SIZEOF_LIST(3) + C_SIZEOF_FLONUM * 3);
-                       lst = C_list(&al, 3, 
-                                        C_flonum(&al, out->rise),
-                                        C_flonum(&al, out->set),
-                                        C_flonum(&al, out->transit));
-                       free(out);
-                       C_return(apply_make_equ(lst));")
-                       jdin
-                       (ecl-lng ecl-in)
-                       (ecl-lat ecl-in)
-                       (ell-a ell-in)
-                       (ell-e ell-in)
-                       (ell-i ell-in)
-                       (ell-w ell-in)
-                       (ell-omega ell-in)
-                       (ell-n ell-in)
-                       (ell-jd ell-in)
-                       horizon
-                       daylimit))
-    
-    (define ell-last-perihelion (foreign-lambda double "ln_get_ell_last_perihelion" double double double))
- 
- ;;; }}}
+        ;; returns rst type 
+        (define (ell-body-rst jd ecl-in ell-in)
+          (let ((rst (make-rst)))
+            ((foreign-lambda void "ln_get_ell_body_rst"
+                             double
+                             nonnull-c-pointer
+                             nonnull-c-pointer
+                             nonnull-c-pointer)
+             jd ecl-in ell-in rst)
+            rst))
 
-)              
+        ;; returns rst type 
+        (define (ell-body-rst-horizon jd ecl-in ell-in horizon)
+          (let ((rst (make-rst)))
+            ((foreign-lambda void "ln_get_ell_body_rst_horizon"
+                             double
+                             nonnull-c-pointer
+                             nonnull-c-pointer
+                             double
+                             nonnull-c-pointer)
+             jd ecl-in ell-in horizon rst)
+            rst))
+
+        ;; returns rst type 
+        (define (ell-body-next-rst-horizon jd ecl-in ell-in horizon)
+          (let ((rst (make-rst)))
+            ((foreign-lambda void "ln_get_ell_body_next_rst_horizon"
+                             double
+                             nonnull-c-pointer
+                             nonnull-c-pointer
+                             double
+                             nonnull-c-pointer)
+             jd ecl-in ell-in horizon rst)
+            rst))
+
+        ;; returns rst type 
+        (define (ell-body-next-rst-horizon-future jd ecl-in ell-in horizon daylimit)
+          (let ((rst (make-rst)))
+            ((foreign-lambda void "ln_get_ell_body_next_rst_horizon_future"
+                             double
+                             nonnull-c-pointer
+                             nonnull-c-pointer
+                             double
+                             double
+                             nonnull-c-pointer)
+             jd ecl-in ell-in horizon daylimit rst)
+            rst))
+
+
+        (define ell-last-perihelion (foreign-lambda double "ln_get_ell_last_perihelion" double double double))
+
+        ;;; }}}
+
+        )              
 
 
