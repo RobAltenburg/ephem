@@ -21,7 +21,7 @@
     ;; returns equ type
     (define (apparent-posn equ-in proper-in jd)
       (let ((equ (make-equ)))
-          ((foreign-lambda void "ln_get_apparen_posn"
+          ((foreign-lambda void "ln_get_apparent_posn"
                        nonnull-c-pointer
                        nonnull-c-pointer
                        double

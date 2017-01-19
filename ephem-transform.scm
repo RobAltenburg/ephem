@@ -40,7 +40,7 @@
         ;;    struct ln_hrz_posn *position);
         (define (hrz-from-equ-sidereal-time equ ecl sidereal)
           (let ((hrz (make-hrz)))
-            ((foreign-lambda void "ln_get_hrz_from_sidereal_time"
+            ((foreign-lambda void "ln_get_hrz_from_equ_sidereal_time"
                              nonnull-c-pointer
                              nonnull-c-pointer
                              double
