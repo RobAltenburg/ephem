@@ -1,7 +1,8 @@
 ;;;; ephem.meta 
 ((license "GPL")
  (category misc)
- (needs numbers srfi-19 foreign foreigners)
+ (needs numbers srfi-19 foreigners)
+ (test-depends test)
  (files "ephem.scm" "ephem.meta" "ephem.setup")
  (author "Rob Altenburg")
  (synopsis "Routines for Astronomy"))
