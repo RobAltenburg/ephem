@@ -44,6 +44,9 @@
               venus-sdiam venus-rst venus-helio-coords venus-equ-coords
               venus-earth-dist venus-solar-dist venus-magnitude 
               venus-disk venus-phase venus-rect-helio
+              mars-sdiam mars-rst mars-helio-coords mars-equ-coords
+              mars-earth-dist mars-solar-dist mars-magnitude 
+              mars-disk mars-phase mars-rect-helio
               jupiter-equ-sdiam jupiter-pol-sdiam jupiter-rst jupiter-helio-coords jupiter-equ-coords
               jupiter-earth-dist jupiter-solar-dist jupiter-magnitude 
               jupiter-disk jupiter-phase jupiter-rect-helio
