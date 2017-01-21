@@ -87,7 +87,7 @@
 
         (use ephem-common
              ephem-sidereal ephem-lunar ephem-solar ephem-rise-set ephem-julian-day
-             ephem-angular ephem-mercury ephem-venus ephem-jupiter ephem-saturn
+             ephem-angular ephem-mercury ephem-venus ephem-mars ephem-jupiter ephem-saturn
              ephem-neptune ephem-uranus ephem-pluto ephem-earth
              ephem-refraction ephem-transform ephem-constellation 
              ephem-aberration ephem-apparent ephem-comet ephem-dynamical
