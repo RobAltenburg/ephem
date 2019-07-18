@@ -3,3 +3,7 @@
 *.inline
 *.types
 *.txt
+*.sh
+*.log
+tests/run
+repo
